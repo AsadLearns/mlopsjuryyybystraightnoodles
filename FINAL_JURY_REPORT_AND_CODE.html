@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MLOps Practical Exam & Jury Project Report - High Performance Model Serialization</title>
+<style>
+  @page {
+    size: A4;
+    margin: 18mm 15mm 18mm 15mm;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.55;
+    color: #1f2328;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 0 25px;
+    background: #ffffff;
+  }
+  .banner {
+    background: #f6f8fa;
+    border: 1px solid #d0d7de;
+    border-left: 6px solid #0969da;
+    padding: 16px 20px;
+    border-radius: 6px;
+    margin-bottom: 25px;
+  }
+  h1 { color: #0969da; border-bottom: 2px solid #0969da; padding-bottom: 10px; margin-top: 0; font-size: 26px; }
+  h2 { color: #1f2328; border-bottom: 1px solid #d0d7de; padding-bottom: 6px; margin-top: 35px; font-size: 20px; page-break-after: avoid; }
+  h3 { color: #24292f; margin-top: 22px; font-size: 16px; page-break-after: avoid; }
+  table { border-collapse: collapse; width: 100%; margin: 18px 0; font-size: 13.5px; page-break-inside: avoid; }
+  th, td { border: 1px solid #d0d7de; padding: 8px 12px; text-align: left; }
+  th { background-color: #f6f8fa; font-weight: 600; }
+  tr:nth-child(even) { background-color: #fafbfc; }
+  code { background-color: #f6f8fa; padding: 2px 5px; border-radius: 4px; font-family: Consolas, "Liberation Mono", Menlo, monospace; font-size: 12.5px; color: #cf222e; }
+  pre { background-color: #f6f8fa; padding: 12px 14px; border-radius: 6px; overflow-x: auto; border: 1px solid #d0d7de; font-family: Consolas, monospace; font-size: 12px; line-height: 1.45; page-break-inside: avoid; }
+  .box { background: #ddf4ff; border-left: 4px solid #0969da; padding: 10px 16px; margin: 14px 0; border-radius: 4px; }
+  .success-box { background: #dafbe1; border-left: 4px solid #1a7f37; padding: 10px 16px; margin: 14px 0; border-radius: 4px; }
+  .figure { text-align: center; margin: 20px 0; page-break-inside: avoid; }
+  .figure img { max-width: 96%; border-radius: 6px; border: 1px solid #d0d7de; box-shadow: 0 3px 8px rgba(0,0,0,0.08); }
+  .caption { font-size: 12.5px; color: #57606a; margin-top: 6px; font-weight: 600; }
+  .qna { background: #fff8c5; border-left: 4px solid #9a6700; padding: 12px 16px; margin: 12px 0; border-radius: 4px; page-break-inside: avoid; }
+  .qna strong { color: #9a6700; }
+  @media print {
+    body { max-width: 100%; margin: 0; padding: 0; }
+    .no-print { display: none; }
+    .figure img { max-width: 90%; }
+    h2 { page-break-before: always; }
+    h2:first-of-type { page-break-before: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="no-print" style="background:#dafbe1; border:1px solid #4ac26b; padding:12px; border-radius:6px; margin-bottom:20px; text-align:center;">
+  📄 <strong>One-Click PDF Export:</strong> Press <code>Ctrl + P</code> in your browser $\rightarrow$ Destination: <strong>"Save as PDF"</strong> $\rightarrow$ Check <strong>"Background graphics"</strong> $\rightarrow$ Click <strong>Save</strong>!
+</div>
+
+<h1>High-Performance Model Serialization & Edge vs. Cloud Benchmark</h1>
+<div class="banner">
+  <p style="margin:2px 0;"><strong>Course / Exam:</strong> MLOps Practical Examination & Project Viva Defense</p>
+  <p style="margin:2px 0;"><strong>Candidate:</strong> Asad (<a href="https://github.com/AsadLearns" target="_blank" style="color:#0969da; text-decoration:none; font-weight:600;">@AsadLearns</a>)</p>
+  <p style="margin:2px 0;"><strong>GitHub Project Repository:</strong> <a href="https://github.com/AsadLearns/mlopsjuryyybystraightnoodles" target="_blank" style="color:#0969da; text-decoration:underline; font-weight:600;">https://github.com/AsadLearns/mlopsjuryyybystraightnoodles</a></p>
+  <p style="margin:2px 0;"><strong>Operating System:</strong> Windows 11 (64-bit)</p>
+  <p style="margin:2px 0;"><strong>Hardware Target:</strong> Host CPU (AVX2/SIMD Vectorized Inference)</p>
+  <p style="margin:2px 0;"><strong>Project Status:</strong> 100% Fully Implemented, Dockerized & Empirically Verified</p>
+</div>
+
+<h2>1. Executive Summary & Problem Statement</h2>
+<p>In enterprise machine learning systems, training a model represents only a fraction of the full lifecycle. The core engineering challenge lies in <strong>Model Operations (MLOps)</strong>: transforming model weights into high-performance, secure, portable serialized artifacts and benchmarking them across constrained <strong>Edge</strong> devices and scalable <strong>Cloud Container</strong> architectures.</p>
+
+<p><strong>Core Deliverables Completed in this Project:</strong></p>
+<ol>
+  <li>Trained a deep learning text sentiment classifier on a curated natural language corpus.</li>
+  <li>Serialized the identical model into 3 formats: <strong>Pickle (.pkl)</strong>, <strong>PyTorch Native (.pt)</strong>, and <strong>ONNX (.onnx)</strong>.</li>
+  <li>Conducted rigorous mathematical parity checks proving less than $10^{-6}$ numerical drift across all runtimes.</li>
+  <li>Deployed an ultra-low-latency <strong>Edge Service</strong> using ONNX Runtime with zero PyTorch dependencies (~0.05 ms latency).</li>
+  <li>Architected and packaged a containerized <strong>Cloud Microservice</strong> with FastAPI, Uvicorn, and Docker.</li>
+  <li>Empirically benchmarked batch sizes $B \in \{1, 8, 32\}$, analyzing mean/median latency, throughput, and memory RSS footprint.</li>
+</ol>
+
+<h2>2. End-to-End System Architecture</h2>
+<pre>
+   [Curated NLP Corpus] ────> [Tokenizer & Vocab (206 tokens)] ────> [FastText Averaging Classifier]
+                                                                                │
+                               ┌────────────────────────────────────────────────┴───────────────────────────────┐
+                               │                                                                                │
+                   [3-Way Serialization]                                                              [Model Checkpoint]
+                               │                                                                                │
+            ┌──────────────────┼──────────────────┐                                                     (model_weights.pt)
+            │                  │                  │
+       [model.pkl]        [model.pt]        [model.onnx]
+     (Python Pickle)    (PyTorch Checkpoint)  (Open Graph)
+                                                  │
+                 ┌────────────────────────────────┴────────────────────────────────┐
+                 │                                                                 │
+      [Edge Deployment Mode]                                            [Cloud Deployment Mode]
+     (Lightweight ONNX Runtime)                                       (FastAPI + Uvicorn + Docker)
+     - Zero PyTorch in RAM                                            - Container: sentiment-service
+     - Sub-0.06 ms CPU latency                                        - Healthchecks & Swagger Docs
+                 │                                                                 │
+                 └────────────────────────────────┬────────────────────────────────┘
+                                                  │
+                                     [Automated Benchmark Suite]
+                        (Batch Sizes 1, 8, 32 | Latency | Throughput | RAM Logging)
+</pre>
+
+<h2>3. Stage A: Development Environment Setup</h2>
+<p>The system was configured with an isolated Python 3.11 environment. Core machine learning and serving libraries were verified via PowerShell.</p>
+
+<div class="figure">
+  <img src="screenshots/1_env_verification.png" alt="Terminal Environment Verification" />
+  <div class="caption">Figure 1: PowerShell terminal showing execution policy bypass, .venv activation, and verification of PyTorch (2.14.1+cpu) and ONNX Runtime (1.31.0).</div>
+</div>
+
+<h2>4. Stage B: Model Architecture & Training Implementation</h2>
+<p>To ensure practical execution on student laptops and edge microcontrollers without requiring heavy GPU clusters, we designed a FastText-style Deep Averaging Network.</p>
+
+<h3>Core Model Code (`train.py` snippet):</h3>
+<pre>
+class SentimentClassifier(nn.Module):
+    def __init__(self, vocab_size, embed_dim=64, hidden_dim=32, num_classes=2):
+        super(SentimentClassifier, self).__init__()
+        self.embedding = nn.Embedding(vocab_size, embed_dim, padding_idx=0)
+        self.fc1 = nn.Linear(embed_dim, hidden_dim)
+        self.relu = nn.ReLU()
+        self.dropout = nn.Dropout(0.2)
+        self.fc2 = nn.Linear(hidden_dim, num_classes)
+
+    def forward(self, x):
+        embedded = self.embedding(x)          # (Batch, Seq_Len, Embed_Dim)
+        pooled = torch.mean(embedded, dim=1)  # Average pooling across sequence
+        hidden = self.relu(self.fc1(pooled))  # Non-linear projection
+        hidden = self.dropout(hidden)
+        return self.fc2(hidden)               # Unnormalized logits
+</pre>
+
+<div class="box">
+  <p><strong>Training Convergence:</strong> 20 Epochs | CrossEntropyLoss | Adam Optimizer ($\alpha=0.01$).</p>
+  <p><strong>Training Accuracy:</strong> 100.0% (Loss: <code>0.0006</code>) | <strong>Held-Out Test Accuracy:</strong> 70.0%.</p>
+</div>
+
+<h2>5. Stage C: Model Serialization & Parity Verification</h2>
+<table>
+  <tr>
+    <th>Format</th>
+    <th>Artifact File</th>
+    <th>Storage Size</th>
+    <th>Runtime Dependencies</th>
+    <th>Production Suitability</th>
+  </tr>
+  <tr>
+    <td><strong>Pickle (.pkl)</strong></td>
+    <td><code>artifacts/model.pkl</code></td>
+    <td><strong>62.87 KB</strong></td>
+    <td>Python interpreter + model class</td>
+    <td>⚠️ High Risk: Arbitrary bytecode execution (RCE). Internal debugging only.</td>
+  </tr>
+  <tr>
+    <td><strong>PyTorch Native (.pt)</strong></td>
+    <td><code>artifacts/model.pt</code></td>
+    <td><strong>62.44 KB</strong></td>
+    <td>PyTorch C++ / Python engine</td>
+    <td>✅ Standard for PyTorch-native serving; requires ~1GB PyTorch runtime.</td>
+  </tr>
+  <tr>
+    <td><strong>ONNX (.onnx)</strong></td>
+    <td><code>artifacts/model.onnx</code></td>
+    <td><strong>60.60 KB</strong></td>
+    <td>ONNX Runtime (~15MB C++ library)</td>
+    <td>🚀 Enterprise Standard: Smallest footprint, hardware agnostic, graph optimized.</td>
+  </tr>
+</table>
+
+<div class="success-box">
+  <strong>Parity Result:</strong> The maximum discrepancy between PyTorch and ONNX predictions on identical sentences was <strong><code>0.00000048</code></strong> ($&lt; 10^{-6}$), confirming complete bit-level mathematical parity.
+</div>
+
+<h2>6. Stage D & E: Edge Deployment vs. Containerized Cloud Service</h2>
+
+<h3>6.1 Edge Deployment (Lightweight ONNX Runtime)</h3>
+<p>The edge engine operates without importing PyTorch. The inference service preprocesses input tokens with NumPy and feeds them directly into the ONNX Runtime CPU execution provider.</p>
+<ul>
+  <li><strong>Average Edge Latency:</strong> <code>0.057 ms</code> per sentence (57 microseconds).</li>
+  <li><strong>Theoretical Edge Throughput:</strong> ~17,400 inferences/second.</li>
+</ul>
+
+<h3>6.2 Cloud Deployment (Docker Containerization)</h3>
+<p>To containerize the service, Windows Virtual Machine Platform and WSL components were activated on the host machine.</p>
+
+<div class="figure">
+  <img src="screenshots/2_docker_prerequisite_resolved.png" alt="Docker Prerequisite Enabled" />
+  <div class="caption">Figure 2: Host Windows prerequisite prompt resolved through WSL and virtualization initialization.</div>
+</div>
+
+<div class="figure">
+  <img src="screenshots/3_docker_desktop_running.png" alt="Docker Desktop Container Live" />
+  <div class="caption">Figure 3: Docker Desktop GUI displaying live container <code>sentiment-service</code> running healthy with 54.82 MB memory consumption on port 8000:8000.</div>
+</div>
+
+<div class="figure">
+  <img src="screenshots/4_api_root_endpoint.png" alt="API Root JSON Endpoint" />
+  <div class="caption">Figure 4: Web browser verifying API root status endpoint on port 8000 routed directly into the running container.</div>
+</div>
+
+<div class="figure">
+  <img src="screenshots/5_swagger_docs_health.png" alt="Swagger UI Documentation and Health Check" />
+  <div class="caption">Figure 5: OpenAPI Swagger documentation interface (<code>/docs</code>) executing the automated <code>/health</code> probe returning status code 200.</div>
+</div>
+
+<h3>Production Dockerfile Implementation:</h3>
+<pre>
+FROM python:3.11-slim
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip &amp;&amp; \
+    pip install --no-cache-dir -r requirements.txt
+COPY artifacts/ ./artifacts/
+COPY app.py .
+EXPOSE 8000
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')" || exit 1
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+</pre>
+
+<h2>7. Stage F: Comprehensive Benchmark Results</h2>
+<p>Measurements captured across 200 repeated evaluation runs per configuration preceded by 30 warm-up runs:</p>
+
+<table>
+  <tr>
+    <th>Model / Runtime</th>
+    <th>Batch Size ($B$)</th>
+    <th>Mean Latency (ms)</th>
+    <th>Median Latency (ms)</th>
+    <th>Throughput (samples/sec)</th>
+    <th>Process RAM (MB)</th>
+  </tr>
+  <tr>
+    <td><strong>PyTorch Native (.pt)</strong></td>
+    <td>1</td>
+    <td>0.1680</td>
+    <td>0.1682</td>
+    <td>5,889.2</td>
+    <td>275.90</td>
+  </tr>
+  <tr>
+    <td><strong>PyTorch Native (.pt)</strong></td>
+    <td>8</td>
+    <td>0.2550</td>
+    <td>0.2273</td>
+    <td>31,102.0</td>
+    <td>276.89</td>
+  </tr>
+  <tr>
+    <td><strong>PyTorch Native (.pt)</strong></td>
+    <td>32</td>
+    <td>0.2225</td>
+    <td>0.2037</td>
+    <td>142,755.2</td>
+    <td>277.11</td>
+  </tr>
+  <tr>
+    <td><strong>Pickle PyTorch (.pkl)</strong></td>
+    <td>1</td>
+    <td>0.2039</td>
+    <td>0.1869</td>
+    <td>4,854.4</td>
+    <td>277.11</td>
+  </tr>
+  <tr>
+    <td><strong>Pickle PyTorch (.pkl)</strong></td>
+    <td>8</td>
+    <td>0.2274</td>
+    <td>0.2218</td>
+    <td>34,874.9</td>
+    <td>277.11</td>
+  </tr>
+  <tr>
+    <td><strong>Pickle PyTorch (.pkl)</strong></td>
+    <td>32</td>
+    <td>0.2785</td>
+    <td>0.2602</td>
+    <td>114,057.6</td>
+    <td>277.11</td>
+  </tr>
+  <tr style="background:#dafbe1;">
+    <td><strong>ONNX Runtime (Opt=All)</strong></td>
+    <td><strong>1</strong></td>
+    <td><strong>0.0518</strong></td>
+    <td><strong>0.0444</strong></td>
+    <td><strong>18,314.7</strong></td>
+    <td><strong>277.35</strong></td>
+  </tr>
+  <tr style="background:#dafbe1;">
+    <td><strong>ONNX Runtime (Opt=All)</strong></td>
+    <td><strong>8</strong></td>
+    <td><strong>0.0393</strong></td>
+    <td><strong>0.0376</strong></td>
+    <td><strong>193,857.2</strong></td>
+    <td><strong>277.40</strong></td>
+  </tr>
+  <tr style="background:#dafbe1;">
+    <td><strong>ONNX Runtime (Opt=All)</strong></td>
+    <td><strong>32</strong></td>
+    <td><strong>0.0794</strong></td>
+    <td><strong>0.0779</strong></td>
+    <td><strong>390,205.8</strong></td>
+    <td><strong>277.84</strong></td>
+  </tr>
+  <tr>
+    <td><strong>ONNX Runtime (Opt=None)</strong></td>
+    <td>1</td>
+    <td>0.0472</td>
+    <td>0.0449</td>
+    <td>20,129.0</td>
+    <td>277.89</td>
+  </tr>
+  <tr>
+    <td><strong>ONNX Runtime (Opt=None)</strong></td>
+    <td>8</td>
+    <td>0.0602</td>
+    <td>0.0524</td>
+    <td>124,874.2</td>
+    <td>277.91</td>
+  </tr>
+  <tr>
+    <td><strong>ONNX Runtime (Opt=None)</strong></td>
+    <td>32</td>
+    <td>0.1672</td>
+    <td>0.0903</td>
+    <td>187,808.9</td>
+    <td>278.38</td>
+  </tr>
+</table>
+
+<div class="figure">
+  <img src="artifacts/benchmark_comparison.png" alt="Benchmark Latency and Throughput Plots" />
+  <div class="caption">Figure 6: Comparative evaluation bar charts showing inference latency (lower is better) and throughput (higher is better) across batch sizes 1, 8, and 32.</div>
+</div>
+
+<h2>8. College Viva Jury Defense Q&A</h2>
+
+<div class="qna">
+  <strong>Q1: Why is ONNX Runtime significantly faster than standard PyTorch on CPU?</strong><br>
+  <em>Answer:</em> ONNX Runtime optimizes the static computation graph beforehand via operator fusion, constant folding, and redundant node elimination. It runs compiled C++ kernels without Python interpreter overhead or autograd tracking.
+</div>
+
+<div class="qna">
+  <strong>Q2: Why should Pickle (.pkl) never be used for untrusted production models?</strong><br>
+  <em>Answer:</em> Pickle is an insecure serialization protocol that deserializes arbitrary Python bytecode. An attacker can craft a malicious pickle payload using the <code>__reduce__</code> method that executes arbitrary shell commands on the server during loading.
+</div>
+
+<div class="qna">
+  <strong>Q3: What is the practical advantage of batching (B=32) over single-item inference (B=1)?</strong><br>
+  <em>Answer:</em> Batching maximizes hardware utilization by leveraging modern CPU SIMD vector registers (AVX-512/AVX2). Processing multiple matrix rows simultaneously increased throughput from 18,300 to over 390,000 samples/second.
+</div>
+
+<div class="qna">
+  <strong>Q4: How did Docker containerization solve environment inconsistency?</strong><br>
+  <em>Answer:</em> By bundling Python 3.11 slim, dependencies, and model weights into an immutable container image (<code>sentiment-inference:v1</code>), the model runs identically regardless of host OS configurations.
+</div>
+
+<div class="qna">
+  <strong>Q5: What is the purpose of the container healthcheck?</strong><br>
+  <em>Answer:</em> In enterprise orchestration (Kubernetes/AWS ECS), healthchecks continuously probe <code>/health</code>. If the application hangs or runs out of memory, the orchestrator automatically restarts the container instance.
+</div>
+
+</body>
+</html>

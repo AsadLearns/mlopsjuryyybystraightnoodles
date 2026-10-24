@@ -1,0 +1,13 @@
+Model / Runtime,Batch Size,Mean Latency (ms),Median Latency (ms),P95 Latency (ms),Throughput (samples/s),Process Memory (MB)
+PyTorch Native (.pt),1,0.119,0.0815,0.1012,8341.6,275.09
+PyTorch Native (.pt),8,0.1023,0.1033,0.126,77463.8,276.06
+PyTorch Native (.pt),32,0.124,0.121,0.1461,256013.3,276.28
+Pickle PyTorch (.pkl),1,0.0915,0.0866,0.1225,10821.2,276.28
+Pickle PyTorch (.pkl),8,0.1087,0.1065,0.1178,72944.4,276.28
+Pickle PyTorch (.pkl),32,0.1289,0.1261,0.1449,246311.1,276.28
+ONNX Runtime (Opt=All),1,0.0223,0.0219,0.0242,42650.3,276.53
+ONNX Runtime (Opt=All),8,0.0255,0.0251,0.0258,300430.0,276.57
+ONNX Runtime (Opt=All),32,0.0434,0.04,0.0667,710787.3,277.06
+ONNX Runtime (Opt=None),1,0.0255,0.0235,0.0341,37289.8,277.1
+ONNX Runtime (Opt=None),8,0.0271,0.0263,0.0294,282092.4,277.13
+ONNX Runtime (Opt=None),32,0.0421,0.0415,0.0459,736826.4,277.57

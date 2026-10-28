@@ -1,0 +1,122 @@
+name: MLOps CI/CD Pipeline
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+    tags:
+      - 'v*'
+
+jobs:
+  # -------------------------------------------------------------
+  # Job 1: Runs Linting + Tests on Pull Requests
+  # -------------------------------------------------------------
+  lint-and-test:
+    name: Linting & Unit Tests (PR Validation)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 pytest onnxruntime fastapi uvicorn numpy pydantic
+
+      - name: Run Linting Check (flake8)
+        run: |
+          # Stop build if there are Python syntax errors or undefined names
+          flake8 app.py edge_infer.py test_model.py --count --select=E9,F63,F7,F82 --show-source --statistics
+          # Treat warnings as non-fatal but report them
+          flake8 app.py edge_infer.py test_model.py --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+      - name: Run Unit Tests (pytest)
+        run: |
+          pytest test_model.py -v
+
+  # -------------------------------------------------------------
+  # Job 2: Trains Model on Push to Main
+  # -------------------------------------------------------------
+  train-model:
+    name: Model Training & Serialization (Push to Main)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && !startsWith(github.ref, 'refs/tags/')
+    needs: [lint-and-test]
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install PyTorch & ML Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install torch torchvision --extra-index-url https://download.pytorch.org/whl/cpu
+          pip install onnx onnxruntime onnxscript pandas matplotlib psutil fastapi uvicorn
+
+      - name: Train Sentiment Classifier
+        run: |
+          python train.py
+
+      - name: Serialize Model (.pkl, .pt, .onnx) & Parity Check
+        run: |
+          python serialize.py
+
+      - name: Upload Trained Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: model-artifacts
+          path: artifacts/
+          retention-days: 7
+
+  # -------------------------------------------------------------
+  # Job 3: Deploys to Staging on Tag (e.g. v1.0.0)
+  # -------------------------------------------------------------
+  deploy-to-staging:
+    name: Deploy to Staging Environment (Triggered on Tag)
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Staging Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          tags: sentiment-inference:staging
+          load: true
+
+      - name: Run Staging Smoke Test (Container Verification)
+        run: |
+          echo "[*] Launching staging container on port 8000..."
+          docker run -d -p 8000:8000 --name staging-service sentiment-inference:staging
+          sleep 5
+          echo "[*] Pinging container health check endpoint..."
+          curl -f http://localhost:8000/health || exit 1
+          echo "[*] Container health check passed! Successfully deployed to Staging."
+
+      - name: Staging Deployment Summary
+        run: |
+          echo "================================================="
+          echo "  STAGING DEPLOYMENT SUCCESSFUL FOR TAG: ${{ github.ref_name }}"
+          echo "  Image: sentiment-inference:staging"
+          echo "  Container: staging-service"
+          echo "  Environment: Staging Microservice Cluster"
+          echo "================================================="

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Master MLOps Comprehensive Examination & Jury Project Report</title>
+<style>
+  @page {
+    size: A4;
+    margin: 15mm 15mm 15mm 15mm;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.55;
+    color: #1f2328;
+    max-width: 980px;
+    margin: 20px auto;
+    padding: 0 25px;
+    background: #ffffff;
+  }
+  .banner {
+    background: #f6f8fa;
+    border: 1px solid #d0d7de;
+    border-left: 6px solid #0969da;
+    padding: 18px 22px;
+    border-radius: 6px;
+    margin-bottom: 25px;
+  }
+  h1 { color: #0969da; border-bottom: 2px solid #0969da; padding-bottom: 10px; margin-top: 0; font-size: 26px; }
+  h2 { color: #1f2328; border-bottom: 1px solid #d0d7de; padding-bottom: 6px; margin-top: 35px; font-size: 20px; page-break-after: avoid; }
+  h3 { color: #24292f; margin-top: 22px; font-size: 16px; page-break-after: avoid; }
+  table { border-collapse: collapse; width: 100%; margin: 18px 0; font-size: 13.5px; page-break-inside: avoid; }
+  th, td { border: 1px solid #d0d7de; padding: 8px 12px; text-align: left; }
+  th { background-color: #f6f8fa; font-weight: 600; }
+  tr:nth-child(even) { background-color: #fafbfc; }
+  code { background-color: #f6f8fa; padding: 2px 5px; border-radius: 4px; font-family: Consolas, "Liberation Mono", Menlo, monospace; font-size: 12.5px; color: #cf222e; }
+  pre { background-color: #f6f8fa; padding: 12px 14px; border-radius: 6px; overflow-x: auto; border: 1px solid #d0d7de; font-family: Consolas, monospace; font-size: 12px; line-height: 1.45; page-break-inside: avoid; }
+  .box { background: #ddf4ff; border-left: 4px solid #0969da; padding: 10px 16px; margin: 14px 0; border-radius: 4px; }
+  .alert-box { background: #ffebe9; border-left: 5px solid #cf222e; padding: 14px 18px; border-radius: 4px; margin: 20px 0; }
+  .success-box { background: #dafbe1; border-left: 4px solid #1a7f37; padding: 10px 16px; margin: 14px 0; border-radius: 4px; }
+  .badge-drift { background-color: #cf222e; color: white; padding: 3px 8px; border-radius: 12px; font-weight: bold; font-size: 11.5px; }
+  .badge-warn { background-color: #9a6700; color: white; padding: 3px 8px; border-radius: 12px; font-weight: bold; font-size: 11.5px; }
+  .badge-ok { background-color: #1a7f37; color: white; padding: 3px 8px; border-radius: 12px; font-weight: bold; font-size: 11.5px; }
+  .figure { text-align: center; margin: 20px 0; page-break-inside: avoid; }
+  .figure img { max-width: 100%; border-radius: 6px; border: 1px solid #d0d7de; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+  .caption { font-size: 12.5px; color: #57606a; margin-top: 6px; font-weight: 600; }
+  .qna { background: #fff8c5; border-left: 4px solid #9a6700; padding: 12px 16px; margin: 12px 0; border-radius: 4px; page-break-inside: avoid; }
+  .qna strong { color: #9a6700; }
+  .terminal-box { background: #0d1117; color: #58a6ff; padding: 14px 18px; border-radius: 6px; font-family: Consolas, monospace; font-size: 12px; border: 1px solid #30363d; overflow-x: auto; margin: 14px 0; }
+  .terminal-green { color: #3fb950; font-weight: bold; }
+  .terminal-white { color: #c9d1d9; }
+  .terminal-yellow { color: #d29922; }
+  @media print {
+    body { max-width: 100%; margin: 0; padding: 0; }
+    .no-print { display: none; }
+    .figure img { max-width: 95%; }
+    h2 { page-break-before: always; }
+    h2:first-of-type { page-break-before: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="no-print" style="background:#dafbe1; border:1px solid #4ac26b; padding:12px; border-radius:6px; margin-bottom:20px; text-align:center;">
+  📄 <strong>One-Click PDF Export:</strong> Press <code>Ctrl + P</code> in your browser &rarr; Destination: <strong>"Save as PDF"</strong> &rarr; Check <strong>"Background graphics"</strong> &rarr; Click <strong>Save</strong>!
+</div>
+
+<h1>Master MLOps Comprehensive Practical Exam & Jury Project Report</h1>
+<div class="banner">
+  <p style="margin:2px 0;"><strong>Program / Examination:</strong> MLOps Practical Examination & Comprehensive Jury Viva Defense</p>
+  <p style="margin:2px 0;"><strong>Candidate:</strong> Asad (<a href="https://github.com/AsadLearns" target="_blank" style="color:#0969da; text-decoration:none; font-weight:600;">@AsadLearns</a>)</p>
+  <p style="margin:2px 0;"><strong>GitHub Project Repository:</strong> <a href="https://github.com/AsadLearns/mlopsjuryyybystraightnoodles" target="_blank" style="color:#0969da; text-decoration:underline; font-weight:600;">https://github.com/AsadLearns/mlopsjuryyybystraightnoodles</a></p>
+  <p style="margin:2px 0;"><strong>Operating System:</strong> Windows 11 (64-bit)</p>
+  <p style="margin:2px 0;"><strong>Integrated Modules:</strong> Model Serialization & Benchmark &bull; GitHub Actions CI/CD &bull; Apache Airflow DAG &bull; Assignment-5 Drift Monitoring</p>
+  <p style="margin:2px 0;"><strong>Project Status:</strong> 100% Fully Implemented, Tested, Containerized & Empirically Verified</p>
+</div>
+
+<h2>Table of Contents</h2>
+<ol>
+  <li><strong>Executive Summary & System Architecture</strong></li>
+  <li><strong>Module 1: High-Performance Model Serialization & Edge vs. Cloud Benchmark</strong></li>
+  <li><strong>Module 2: PBL Assignment &mdash; GitHub Actions CI/CD Pipeline</strong></li>
+  <li><strong>Module 3: Tool-Based Assignment &mdash; Apache Airflow DAG Orchestration</strong></li>
+  <li><strong>Module 4: Assignment-5 &mdash; Production Model Drift Monitoring System</strong></li>
+  <li><strong>Integration Evidence: Terminal Execution & Live API Endpoints</strong></li>
+  <li><strong>Comprehensive Jury Viva Defense Q&A</strong></li>
+  <li><strong>Master Submission & Deliverables Matrix</strong></li>
+</ol>
+
+<h2>1. Executive Summary & Master System Architecture</h2>
+<p>Modern machine learning operations (MLOps) demand complete automation across model serialization, continuous integration/continuous deployment, workflow orchestration, and active continuous drift monitoring. This comprehensive project implements all four pillars in production:</p>
+
+<pre>
+                                  [ GitHub Actions CI/CD Pipeline ]
+                                                  │
+                   ┌──────────────────────────────┼──────────────────────────────┐
+                   ▼                              ▼                              ▼
+            [ Pull Request ]               [ Push to main ]               [ Tag v1.0.0 ]
+           flake8 + pytest suite         Train + Serialize Model       Build Docker Staging
+          (Unit & Health checks)         Upload Model Artifacts        & Smoke-test Container
+                   │
+                   ▼
+       [ Local / Cloud Training ]  ──► [ artifacts/model.pkl, model.pt, model.onnx ]
+                   │
+                   ├──► [ Mathematical Parity Check: Discrepancy &lt; 1e-6 ]
+                   │
+                   ├──► [ Edge Deployment: ONNX Runtime (Zero-PyTorch, ~0.05 ms latency) ]
+                   │
+                   ├──► [ Cloud Deployment: FastAPI + Docker Container (Port 8000) ]
+                   │
+                   └──► [ Empirical Benchmarking Engine: Latency, Throughput, RSS Memory ]
+                   │
+                   ▼
+     [ Apache Airflow Orchestration DAG (localhost:8080) ]
+                   │
+                   ├──► download_data &rarr; preprocess_data &rarr; train_model &rarr; evaluate_model
+                   └──► check_accuracy_improvement (BranchPythonOperator)
+                             ├── (accuracy &gt;= baseline) ──► trigger_deployment
+                             └── (accuracy &lt; baseline)  ──► skip_deployment
+                   │
+                   ▼
+     [ Assignment-5: Production Drift Monitoring Engine ]
+                   │
+                   ├──► Data Drift (KS-Test, PSI on 'area'/'bedrooms', Chi-Square on 'location')
+                   ├──► Concept Drift (Longitudinal tracking of RMSE, MAE, R² decay over time)
+                   ├──► Visual Dashboard (artifacts/drift_monitoring_dashboard.png)
+                   └──► Live Microservice API Endpoint (GET /monitoring/drift)
+</pre>
+
+<h2>2. Module 1: Model Serialization & Edge vs. Cloud Benchmark</h2>
+
+<h3>2.1 Serialization Formats & Numerical Parity Proof</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Format</th>
+      <th>File Extension</th>
+      <th>Artifact Size</th>
+      <th>Runtime Dependencies</th>
+      <th>Security & Deployment Suitability</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Python Pickle</strong></td>
+      <td><code>.pkl</code></td>
+      <td>62.87 KB</td>
+      <td>Full Python runtime, identical torch classes</td>
+      <td>Insecure (RCE vulnerability), Python-only</td>
+    </tr>
+    <tr>
+      <td><strong>PyTorch Checkpoint</strong></td>
+      <td><code>.pt</code></td>
+      <td>62.44 KB</td>
+      <td>Requires 1GB+ <code>torch</code> library & CUDA runtime</td>
+      <td>Large footprint, slow cold start on edge</td>
+    </tr>
+    <tr>
+      <td><strong>ONNX Runtime</strong></td>
+      <td><code>.onnx</code></td>
+      <td><strong>60.60 KB</strong></td>
+      <td>Standalone C++ engine (~15MB wheel), zero PyTorch</td>
+      <td>Hardware-agnostic, edge-optimized, production-ready</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="success-box">
+  <strong>Mathematical Parity Proof:</strong> On sample text <em>"the product quality was truly exceptional"</em>:<br>
+  $$\text{Discrepancy} = \max |\hat{y}_{\text{PyTorch}} - \hat{y}_{\text{ONNX}}| = \mathbf{0.00000048} \quad (&lt; 10^{-6})$$<br>
+  Both engines returned the exact identical probability distribution ($97.05\%$ Positive), validating zero precision loss during ONNX graph export.
+</div>
+
+<h3>2.2 Empirical Benchmark Summary (Batch Sizes 1, 8, 32)</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Format / Engine</th>
+      <th>Batch 1 Latency (ms)</th>
+      <th>Batch 8 Latency (ms)</th>
+      <th>Batch 32 Latency (ms)</th>
+      <th>Max Throughput (samples/sec)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>PyTorch Native</td>
+      <td>0.42 ms</td>
+      <td>0.58 ms</td>
+      <td>0.89 ms</td>
+      <td>~36,000</td>
+    </tr>
+    <tr>
+      <td>Pickle Object</td>
+      <td>0.40 ms</td>
+      <td>0.55 ms</td>
+      <td>0.85 ms</td>
+      <td>~37,500</td>
+    </tr>
+    <tr>
+      <td>ONNX Standard</td>
+      <td>0.08 ms</td>
+      <td>0.12 ms</td>
+      <td>0.15 ms</td>
+      <td>~215,000</td>
+    </tr>
+    <tr>
+      <td><strong>ONNX Optimized</strong></td>
+      <td><strong>0.058 ms</strong></td>
+      <td><strong>0.092 ms</strong></td>
+      <td><strong>0.115 ms</strong></td>
+      <td><strong>~280,000+</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="figure">
+  <img src="artifacts/benchmark_comparison.png" alt="Benchmark Comparison Graph">
+  <div class="caption">Figure 1: Empirical Benchmark across Latency, Throughput, and Memory Footprint</div>
+</div>
+
+<div class="figure">
+  <img src="screenshots/3_docker_desktop_running.png" alt="Docker Container Running">
+  <div class="caption">Figure 2: Containerized Cloud Microservice Running in Docker Desktop (Port 8000)</div>
+</div>
+
+<div class="figure">
+  <img src="screenshots/5_swagger_docs_health.png" alt="FastAPI Swagger Documentation">
+  <div class="caption">Figure 3: Interactive Swagger API Documentation and Active Health Endpoint</div>
+</div>
+
+<h2>3. Module 2: PBL Assignment &mdash; GitHub Actions CI/CD Pipeline</h2>
+<p>Automated CI/CD pipeline defined in <code>.github/workflows/mlops_ci_cd.yml</code>:</p>
+<ol>
+  <li><strong>PR Verification:</strong> Runs <code>flake8</code> linting and 4 <code>pytest</code> unit tests in <code>test_model.py</code>.</li>
+  <li><strong>Push to <code>main</code>:</strong> Automatically trains model, serializes weights, and uploads artifacts to GitHub storage.</li>
+  <li><strong>Release Tag Deployment:</strong> Triggered on <code>v1.0.0</code> to build the Docker image and smoke test the container.</li>
+</ol>
+
+<div class="figure">
+  <img src="screenshots/6_github_actions_all_workflows.png" alt="GitHub Actions All Workflows">
+  <div class="caption">Figure 4: GitHub Actions Dashboard Showing All Pipeline Runs Succeeded (Green)</div>
+</div>
+
+<div class="figure">
+  <img src="screenshots/7_github_actions_run_main.png" alt="GitHub Actions Push to Main">
+  <div class="caption">Figure 5: Run #1 (Push to Main): Linting & Unit Tests &rarr; Model Training & Serialization</div>
+</div>
+
+<div class="figure">
+  <img src="screenshots/8_github_actions_run_tag_staging.png" alt="GitHub Actions Release Tag Deployment">
+  <div class="caption">Figure 6: Run #2 (Release Tag v1.0.0): Linting & Unit Tests &rarr; Staging Docker Deployment</div>
+</div>
+
+<h2>4. Module 3: Tool-Based Assignment &mdash; Apache Airflow DAG Orchestration</h2>
+<p>Production workflow DAG implemented in <code>dags/sentiment_mlops_dag.py</code> inside Docker (<code>apache/airflow:2.9.2</code>):</p>
+<ul>
+  <li><code>download_data</code> &rarr; <code>preprocess_data</code> &rarr; <code>train_model</code> &rarr; <code>evaluate_model</code>.</li>
+  <li><code>check_accuracy_improvement</code> (<strong>BranchPythonOperator</strong>): Quality gate routing to <code>trigger_deployment</code> when accuracy improves, or <code>skip_deployment</code> if performance regresses.</li>
+  <li><code>pipeline_complete</code>: EmptyOperator with <code>TriggerRule.NONE_FAILED_MIN_ONE_SUCCESS</code> for clean graph convergence.</li>
+</ul>
+
+<div class="figure">
+  <img src="screenshots/9_airflow_dags_overview.png" alt="Airflow DAGs Overview">
+  <div class="caption">Figure 7: Apache Airflow DAGs Dashboard Showing Active sentiment_mlops_pipeline</div>
+</div>
+
+<div class="figure">
+  <img src="screenshots/10_airflow_dag_graph_success.png" alt="Airflow Execution Graph">
+  <div class="caption">Figure 8: Apache Airflow Graph & Grid View: All Tasks Succeeded with Conditional Branch Deployment</div>
+</div>
+
+<h2>5. Module 4: Assignment-5 &mdash; Production Model Drift Monitoring System</h2>
+
+<div class="alert-box">
+  <h3 style="margin-top:0; color:#cf222e;">🚨 CRITICAL DRIFT ALERTS TRIGGERED</h3>
+  <p><strong>1. Data Drift Alert:</strong> Severe covariate shift detected on input features (<code>area</code>, <code>bedrooms</code>, <code>location</code>). Area PSI reached <strong>1.56</strong> (exceeding critical threshold 0.25).</p>
+  <p><strong>2. Concept Drift Alert:</strong> Model Explanatory Power ($R^2$) collapsed from baseline <strong>0.989</strong> down to <strong>-4.673</strong> in Month 4, with a <strong>+4,917.9%</strong> surge in prediction RMSE due to macroeconomic price inflation.</p>
+</div>
+
+<h3>5.1 Data Drift Analysis (Input Features)</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Data Type</th>
+      <th>Statistical Test</th>
+      <th>Test Statistic</th>
+      <th>p-value / PSI</th>
+      <th>Severity</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>area</strong></td>
+      <td>Numerical (sqft)</td>
+      <td>Two-Sample KS Test & PSI</td>
+      <td>KS Stat = 0.4663</td>
+      <td>p = 5.03 &times; 10<sup>-46</sup> | PSI = 1.560</td>
+      <td>CRITICAL</td>
+      <td><span class="badge-drift">DRIFT DETECTED</span></td>
+    </tr>
+    <tr>
+      <td><strong>bedrooms</strong></td>
+      <td>Numerical (count)</td>
+      <td>Two-Sample KS Test & PSI</td>
+      <td>KS Stat = 0.2297</td>
+      <td>p = 3.72 &times; 10<sup>-11</sup> | PSI = 0.316</td>
+      <td>HIGH</td>
+      <td><span class="badge-drift">DRIFT DETECTED</span></td>
+    </tr>
+    <tr>
+      <td><strong>location</strong></td>
+      <td>Categorical (4 categories)</td>
+      <td>Chi-Square Independence Test</td>
+      <td>Chi² Stat = 29.39</td>
+      <td>p = 1.86 &times; 10<sup>-6</sup></td>
+      <td>HIGH</td>
+      <td><span class="badge-drift">DRIFT DETECTED</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>5.2 Concept Drift Analysis (Longitudinal Performance Timeline)</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Operational Window</th>
+      <th>Sample Count</th>
+      <th>RMSE ($)</th>
+      <th>MAE ($)</th>
+      <th>R² Score</th>
+      <th>RMSE &Delta; (%)</th>
+      <th>Concept Drift Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background:#f6f8fa;">
+      <td><strong>Baseline Model</strong></td>
+      <td>1,000</td>
+      <td>$12,208</td>
+      <td>$9,709</td>
+      <td>0.989</td>
+      <td>0.0%</td>
+      <td><span class="badge-ok">BASELINE</span></td>
+    </tr>
+    <tr>
+      <td><strong>Month 1</strong></td>
+      <td>300</td>
+      <td>$16,641</td>
+      <td>$13,370</td>
+      <td>0.980</td>
+      <td>+36.3%</td>
+      <td><span class="badge-warn">MILD SHIFT</span></td>
+    </tr>
+    <tr>
+      <td><strong>Month 2</strong></td>
+      <td>300</td>
+      <td>$22,480</td>
+      <td>$18,115</td>
+      <td>0.968</td>
+      <td>+84.1%</td>
+      <td><span class="badge-warn">MODERATE DRIFT</span></td>
+    </tr>
+    <tr>
+      <td><strong>Month 3</strong></td>
+      <td>300</td>
+      <td>$55,117</td>
+      <td>$41,146</td>
+      <td>0.870</td>
+      <td>+351.5%</td>
+      <td><span class="badge-drift">CONCEPT DRIFT</span></td>
+    </tr>
+    <tr>
+      <td><strong>Month 4</strong></td>
+      <td>300</td>
+      <td>$612,580</td>
+      <td>$595,185</td>
+      <td>-4.673</td>
+      <td>+4,917.9%</td>
+      <td><span class="badge-drift">CATASTROPHIC DRIFT</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="figure">
+  <img src="artifacts/drift_monitoring_dashboard.png" alt="Drift Monitoring Dashboard">
+  <div class="caption">Figure 9: Assignment-5 6-Panel MLOps Monitoring Dashboard (Input Feature Shifts, Performance Curves, Status Matrix)</div>
+</div>
+
+<h2>6. Integration Evidence: Terminal Execution & Live API Endpoints</h2>
+
+<h3>6.1 Terminal Execution Output: <code>python monitor_drift.py</code></h3>
+<div class="terminal-box">
+<span class="terminal-white">(.venv) PS C:\Users\asadj\Desktop\mlops jury&gt; </span><span class="terminal-yellow">python monitor_drift.py</span><br>
+<span class="terminal-white">[1/5] Generating baseline reference data (Historical)...</span><br>
+<span class="terminal-white">[2/5] Training production baseline model...</span><br>
+<span class="terminal-white">      Baseline Performance -&gt; </span><span class="terminal-green">RMSE: $12,208 | R2: 0.989</span><br>
+<span class="terminal-white">[3/5] Simulating production data streams (Months 1 to 4)...</span><br>
+<span class="terminal-white">[4/5] Running Data Drift &amp; Concept Drift tests...</span><br>
+<span class="terminal-white">      Data Drift Detected: </span><span class="terminal-yellow">True</span><br>
+<span class="terminal-white">      Concept Drift in Month 4: </span><span class="terminal-yellow">True</span><br>
+<span class="terminal-white">[5/5] Generating visualizations and reports...</span><br>
+<br>
+<span class="terminal-green">[SUCCESS] MONITORING COMPLETE!</span><br>
+<span class="terminal-white"> -&gt; Dashboard Image: </span><span class="terminal-green">artifacts\drift_monitoring_dashboard.png</span><br>
+<span class="terminal-white"> -&gt; HTML Report:    </span><span class="terminal-green">MONITORING_REPORT.html</span><br>
+<span class="terminal-white"> -&gt; Metrics JSON:   </span><span class="terminal-green">artifacts/drift_metrics.json</span>
+</div>
+
+<h3>6.2 Live FastAPI Microservice Integration Endpoint</h3>
+<p>In addition to standalone reporting, the monitoring daemon is integrated directly into the production FastAPI service in <code>app.py</code>:</p>
+<pre>
+# Live Endpoint in app.py:
+GET /monitoring/drift
+
+# Response Payload (JSON):
+{
+  "status": "DRIFT_DETECTED",
+  "model_monitored": "House Price Prediction Model",
+  "data_drift": {
+    "area": {"drift_detected": true, "psi": 1.56, "severity": "HIGH"},
+    "bedrooms": {"drift_detected": true, "psi": 0.316, "severity": "HIGH"},
+    "location": {"drift_detected": true, "chi2_statistic": 29.39, "severity": "HIGH"}
+  },
+  "concept_drift_latest_month": {
+    "month": "Month_4",
+    "rmse": 612579.62,
+    "r2": -4.673,
+    "rmse_increase_pct": 4917.9,
+    "concept_drift_detected": true
+  },
+  "recommendation": "CRITICAL: Trigger automated retraining pipeline due to severe covariate shift and R2 collapse."
+}
+</pre>
+
+<h2>7. Comprehensive Jury Viva Defense Q&A</h2>
+
+<div class="qna">
+  <strong>Q1: Why is Pickle prohibited for production model serialization?</strong><br>
+  <strong>Answer:</strong> Pickle serializes Python bytecode instructions rather than raw weights. Calling <code>pickle.load()</code> executes arbitrary code inside <code>__reduce__</code>, creating a severe Remote Code Execution (RCE) vulnerability. In contrast, ONNX is a declarative Protocol Buffer specification that cannot execute arbitrary code.
+</div>
+
+<div class="qna">
+  <strong>Q2: Why is ONNX Runtime significantly faster than PyTorch on CPU?</strong><br>
+  <strong>Answer:</strong> ONNX Runtime applies graph optimizations: constant folding, dead code elimination, and operator fusion (combining operations into single kernel calls). It utilizes hardware-specific AVX2/AVX-512 SIMD vectorization and has zero Python interpreter overhead during inference.
+</div>
+
+<div class="qna">
+  <strong>Q3: How does the BranchPythonOperator prevent model regression in Airflow?</strong><br>
+  <strong>Answer:</strong> The <code>BranchPythonOperator</code> pulls the newly evaluated model's accuracy via Airflow XCom and compares it against the production baseline. If the new model fails to beat the threshold, it dynamically branches to <code>skip_deployment</code>, preventing degraded models from replacing working production artifacts.
+</div>
+
+<div class="qna">
+  <strong>Q4: What is the fundamental difference between Data Drift and Concept Drift?</strong><br>
+  <strong>Answer:</strong> 
+  Data Drift (covariate shift) refers to changes in the input feature distribution $P(X)$ without changes to the underlying target relationship $P(Y \mid X)$ (e.g., buyers viewing larger homes, but price per sqft remains unchanged). 
+  Concept Drift refers to changes in the mathematical relationship $P(Y \mid X)$ itself (e.g., identical homes doubling in price due to inflation or interest rates, making historical model weights inaccurate).
+</div>
+
+<div class="qna">
+  <strong>Q5: Why is the Kolmogorov-Smirnov test superior to comparing simple mean and standard deviation?</strong><br>
+  <strong>Answer:</strong> Comparing mean and standard deviation only captures first- and second-order moments and is blind to bimodal shifts, skewness, or tail anomalies. The Two-Sample KS-test compares empirical cumulative distribution functions non-parametrically across the entire distribution spectrum, making it distribution-free and highly sensitive to arbitrary shifts.
+</div>
+
+<h2>8. Master Submission & Deliverables Matrix</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Project Module</th>
+      <th>Deliverable File / Path</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Model Serialization & Parity</strong></td>
+      <td><code>train.py</code>, <code>serialize.py</code></td>
+      <td>✅ 100% Tested (&lt; 1e-6 error)</td>
+    </tr>
+    <tr>
+      <td><strong>Edge vs. Cloud Serving</strong></td>
+      <td><code>edge_infer.py</code>, <code>app.py</code>, <code>Dockerfile</code></td>
+      <td>✅ 100% Operational (Port 8000)</td>
+    </tr>
+    <tr>
+      <td><strong>Empirical Benchmark</strong></td>
+      <td><code>benchmark.py</code>, <code>artifacts/benchmark_comparison.png</code></td>
+      <td>✅ Generated & Evaluated</td>
+    </tr>
+    <tr>
+      <td><strong>PBL Task (CI/CD Pipeline)</strong></td>
+      <td><code>.github/workflows/mlops_ci_cd.yml</code>, <code>test_model.py</code></td>
+      <td>✅ Passed in GitHub Actions (Green)</td>
+    </tr>
+    <tr>
+      <td><strong>Tool-Based Task (Airflow DAG)</strong></td>
+      <td><code>dags/sentiment_mlops_dag.py</code>, Airflow UI</td>
+      <td>✅ Executed & Succeeded (Port 8080)</td>
+    </tr>
+    <tr>
+      <td><strong>Assignment-5 (Drift Monitoring)</strong></td>
+      <td><code>monitor_drift.py</code>, <code>artifacts/drift_monitoring_dashboard.png</code></td>
+      <td>✅ 100% Executed & Operational</td>
+    </tr>
+    <tr>
+      <td><strong>Interactive Print-to-PDF Report</strong></td>
+      <td><code>MASTER_COMBINED_MLOPS_REPORT.html</code></td>
+      <td>✅ Ready to Print to PDF</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="no-print" style="margin-top:30px; text-align:center; padding:15px; background:#f6f8fa; border:1px solid #d0d7de; border-radius:6px;">
+  💡 <strong>To export this entire combined report as a single PDF:</strong> Press <code>Ctrl + P</code> &rarr; Choose <strong>"Save as PDF"</strong> &rarr; Enable <strong>"Background graphics"</strong> &rarr; Click <strong>Save</strong>.
+</div>
+
+</body>
+</html>

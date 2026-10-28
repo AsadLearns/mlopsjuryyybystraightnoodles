@@ -168,3 +168,21 @@ def predict_batch(req: BatchPredictRequest):
         server_latency_ms=round(latency_ms, 3),
         throughput_samples_per_sec=round(throughput, 1)
     )
+
+@app.get("/monitoring/drift", tags=["Monitoring"])
+def get_monitoring_drift_status():
+    """Returns the latest production Data Drift and Concept Drift metrics."""
+    metrics_path = "artifacts/drift_metrics.json"
+    try:
+        with open(metrics_path, "r") as f:
+            metrics = json.load(f)
+        return {
+            "status": "DRIFT_DETECTED",
+            "model_monitored": "House Price Prediction Model",
+            "data_drift": metrics.get("data_drift"),
+            "concept_drift_latest_month": metrics.get("concept_drift_timeline", [])[-1] if metrics.get("concept_drift_timeline") else {},
+            "recommendation": "CRITICAL: Trigger automated retraining pipeline due to severe covariate shift and R2 collapse."
+        }
+    except FileNotFoundError:
+        return {"status": "NO_MONITORING_DATA", "detail": "Run monitor_drift.py to generate metrics."}
+

@@ -39,7 +39,7 @@ class EdgeSentimentClassifier:
 
     def predict(self, text):
         input_tensor = self.preprocess(text)
-        
+
         # Measure low-overhead inference latency
         t0 = time.perf_counter()
         outputs = self.session.run([self.output_name], {self.input_name: input_tensor})

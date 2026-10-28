@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Assignment-5: Production Drift Monitoring Report - House Price Prediction</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 960px; margin: 25px auto; padding: 0 20px; color: #24292f; line-height: 1.5; }
+  h1 { color: #0969da; border-bottom: 2px solid #0969da; padding-bottom: 8px; }
+  h2 { color: #1f2328; border-bottom: 1px solid #d0d7de; padding-bottom: 6px; margin-top: 30px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+  th, td { border: 1px solid #d0d7de; padding: 8px 12px; text-align: left; }
+  th { background-color: #f6f8fa; }
+  .badge-drift { background-color: #cf222e; color: white; padding: 3px 8px; border-radius: 12px; font-weight: bold; font-size: 12px; }
+  .badge-ok { background-color: #1a7f37; color: white; padding: 3px 8px; border-radius: 12px; font-weight: bold; font-size: 12px; }
+  .alert-box { background: #ffebe9; border-left: 5px solid #cf222e; padding: 14px 18px; border-radius: 4px; margin: 20px 0; }
+  .dashboard-img { width: 100%; border: 1px solid #d0d7de; border-radius: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin: 20px 0; }
+  pre { background: #f6f8fa; padding: 12px; border-radius: 6px; border: 1px solid #d0d7de; overflow-x: auto; font-size: 12.5px; }
+</style>
+</head>
+<body>
+
+<h1>🏠 Production Model Drift Monitoring Report</h1>
+<p><strong>System:</strong> Real Estate Valuation Engine (House Price Prediction)</p>
+<p><strong>Monitoring Scope:</strong> Data Drift (Covariate Shift) & Concept Drift (Performance Degradation)</p>
+
+<div class="alert-box">
+  <h3 style="margin-top:0; color:#cf222e;">🚨 CRITICAL DRIFT ALERTS TRIGGERED</h3>
+  <p><strong>1. Data Drift Alert:</strong> Substantial covariate shift detected in input features (<code>area</code>, <code>bedrooms</code>, <code>location</code>). Population Stability Index (PSI) exceeded threshold (0.25).</p>
+  <p><strong>2. Concept Drift Alert:</strong> Model Explanatory Power ($R^2$) plummeted from baseline <strong>0.99</strong> down to <strong>-4.67</strong> in Month 4. Prediction RMSE surged by <strong>+4917.9%</strong>.</p>
+  <p><strong>Recommended Action:</strong> Automated retraining pipeline triggered; deploy Champion-Challenger validation before traffic cutover.</p>
+</div>
+
+<h2>1. Data Drift Analysis (Input Feature Distributions)</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Type</th>
+      <th>Statistical Test</th>
+      <th>Test Metric</th>
+      <th>p-value / PSI</th>
+      <th>Drift Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>area</strong></td>
+      <td>Numerical</td>
+      <td>Two-Sample KS Test & PSI</td>
+      <td>KS Stat = 0.4663</td>
+      <td>p = 5.03e-46 | PSI = 1.560</td>
+      <td><span class="badge-drift">DRIFT DETECTED</span></td>
+    </tr>
+    <tr>
+      <td><strong>bedrooms</strong></td>
+      <td>Numerical</td>
+      <td>Two-Sample KS Test & PSI</td>
+      <td>KS Stat = 0.2297</td>
+      <td>p = 0.0000 | PSI = 0.316</td>
+      <td><span class="badge-drift">DRIFT DETECTED</span></td>
+    </tr>
+    <tr>
+      <td><strong>location</strong></td>
+      <td>Categorical</td>
+      <td>Chi-Square Independence Test</td>
+      <td>Chi² Stat = 29.39</td>
+      <td>p = 1.86e-06</td>
+      <td><span class="badge-drift">DRIFT DETECTED</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>2. Concept Drift Analysis (Model Performance Over Time)</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Timeline</th>
+      <th>Samples</th>
+      <th>RMSE ($)</th>
+      <th>MAE ($)</th>
+      <th>R² Score</th>
+      <th>RMSE &Delta; (%)</th>
+      <th>Concept Drift</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background:#f6f8fa;">
+      <td><strong>Baseline Reference</strong></td>
+      <td>1,000</td>
+      <td>$12,208</td>
+      <td>$9,709</td>
+      <td>0.989</td>
+      <td>0.0%</td>
+      <td><span class="badge-ok">BASELINE</span></td>
+    </tr>
+    <tr>
+      <td><strong>Month_1</strong></td>
+      <td>300</td>
+      <td>$16,641</td>
+      <td>$13,370</td>
+      <td>0.980</td>
+      <td>+36.3%</td>
+      <td><span class="badge-drift">DRIFT DETECTED</span></td>
+    </tr>
+    <tr>
+      <td><strong>Month_2</strong></td>
+      <td>300</td>
+      <td>$22,480</td>
+      <td>$18,115</td>
+      <td>0.968</td>
+      <td>+84.1%</td>
+      <td><span class="badge-drift">DRIFT DETECTED</span></td>
+    </tr>
+    <tr>
+      <td><strong>Month_3</strong></td>
+      <td>300</td>
+      <td>$55,117</td>
+      <td>$41,146</td>
+      <td>0.870</td>
+      <td>+351.5%</td>
+      <td><span class="badge-drift">DRIFT DETECTED</span></td>
+    </tr>
+    <tr>
+      <td><strong>Month_4</strong></td>
+      <td>300</td>
+      <td>$612,580</td>
+      <td>$595,185</td>
+      <td>-4.673</td>
+      <td>+4917.9%</td>
+      <td><span class="badge-drift">DRIFT DETECTED</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>3. Visual Monitoring Dashboard</h2>
+<img class="dashboard-img" src="artifacts/drift_monitoring_dashboard.png" alt="Drift Monitoring Dashboard">
+
+<h2>4. MLOps Automated Remediation Workflow</h2>
+<pre>
+[ Data Stream Monitor ] ──► (KS Test / PSI / Chi²) ──► [ Data Drift Detected ]
+          │
+          ▼
+[ Accuracy Tracker ]   ──► (R² drop > 0.15, RMSE spike) ──► [ Concept Drift Detected ]
+          │
+          ▼
+   [ Trigger Automated Airflow Retraining DAG ]
+          │
+   ├── Fetch last 90 days production data with fresh ground-truth sale prices
+   ├── Re-estimate categorical location coefficients
+   ├── Retrain GradientBoostingRegressor with hyperparameter tuning
+   └── Run Champion vs Challenger shadow evaluation before automated deployment
+</pre>
+
+<p style="text-align:center; color:#57606a; margin-top:30px; font-size:12px;">Generated automatically by MLOps Drift Monitoring Daemon &bull; Assignment-5</p>
+</body>
+</html>

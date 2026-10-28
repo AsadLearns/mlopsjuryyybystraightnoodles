@@ -1,0 +1,85 @@
+{
+  "baseline_metrics": {
+    "rmse": 12207.78818250104,
+    "mae": 9709.359918334578,
+    "r2": 0.9893839110030583
+  },
+  "data_drift": {
+    "area": {
+      "type": "numerical",
+      "method": "Two-Sample KS Test & PSI",
+      "ks_statistic": 0.4663333333333333,
+      "p_value": 5.030497657056863e-46,
+      "psi": 1.560027136086458,
+      "drift_detected": true,
+      "severity": "HIGH"
+    },
+    "bedrooms": {
+      "type": "numerical",
+      "method": "Two-Sample KS Test & PSI",
+      "ks_statistic": 0.22966666666666666,
+      "p_value": 3.715213820293168e-11,
+      "psi": 0.3158310349390742,
+      "drift_detected": true,
+      "severity": "HIGH"
+    },
+    "location": {
+      "type": "categorical",
+      "method": "Chi-Square Test of Independence",
+      "chi2_statistic": 29.386676659399882,
+      "p_value": 1.85724181711312e-06,
+      "drift_detected": true,
+      "severity": "HIGH"
+    }
+  },
+  "concept_drift_timeline": [
+    {
+      "month": "Month_1",
+      "sample_size": 300,
+      "rmse": 16641.26430413048,
+      "mae": 13369.78483175557,
+      "r2": 0.9802965350147015,
+      "rmse_increase_pct": 36.316784460468426,
+      "r2_drop": 0.00908737598835685,
+      "concept_drift_detected": true,
+      "mean_residual": 69.84583125147124,
+      "std_residual": 16641.117726877124
+    },
+    {
+      "month": "Month_2",
+      "sample_size": 300,
+      "rmse": 22479.51719912925,
+      "mae": 18115.028580838036,
+      "r2": 0.9682129427384379,
+      "rmse_increase_pct": 84.14078670984782,
+      "r2_drop": 0.021170968264620393,
+      "concept_drift_detected": true,
+      "mean_residual": 11486.109359068403,
+      "std_residual": 19323.50861767782
+    },
+    {
+      "month": "Month_3",
+      "sample_size": 300,
+      "rmse": 55117.002433571746,
+      "mae": 41146.43972051911,
+      "r2": 0.8698908210298932,
+      "rmse_increase_pct": 351.49048795405776,
+      "r2_drop": 0.1194930899731651,
+      "concept_drift_detected": true,
+      "mean_residual": 38361.16473264743,
+      "std_residual": 39576.57132214767
+    },
+    {
+      "month": "Month_4",
+      "sample_size": 300,
+      "rmse": 612579.6238717703,
+      "mae": 595185.4648132803,
+      "r2": -4.672667262800494,
+      "rmse_increase_pct": 4917.941126713336,
+      "r2_drop": 5.662051173803552,
+      "concept_drift_detected": true,
+      "mean_residual": 595185.4648132803,
+      "std_residual": 144941.56773637756
+    }
+  ]
+}

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assignment-5: Production Drift Monitoring Report - House Price Prediction</title>
+<style>
+  @page {
+    size: A4;
+    margin: 15mm 15mm 15mm 15mm;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.55;
+    color: #1f2328;
+    max-width: 960px;
+    margin: 20px auto;
+    padding: 0 25px;
+    background: #ffffff;
+  }
+  .banner {
+    background: #f6f8fa;
+    border: 1px solid #d0d7de;
+    border-left: 6px solid #0969da;
+    padding: 16px 20px;
+    border-radius: 6px;
+    margin-bottom: 25px;
+  }
+  h1 { color: #0969da; border-bottom: 2px solid #0969da; padding-bottom: 10px; margin-top: 0; font-size: 26px; }
+  h2 { color: #1f2328; border-bottom: 1px solid #d0d7de; padding-bottom: 6px; margin-top: 32px; font-size: 20px; page-break-after: avoid; }
+  h3 { color: #24292f; margin-top: 20px; font-size: 16px; page-break-after: avoid; }
+  table { border-collapse: collapse; width: 100%; margin: 18px 0; font-size: 13.5px; page-break-inside: avoid; }
+  th, td { border: 1px solid #d0d7de; padding: 8px 12px; text-align: left; }
+  th { background-color: #f6f8fa; font-weight: 600; }
+  tr:nth-child(even) { background-color: #fafbfc; }
+  code { background-color: #f6f8fa; padding: 2px 5px; border-radius: 4px; font-family: Consolas, "Liberation Mono", Menlo, monospace; font-size: 12.5px; color: #cf222e; }
+  pre { background-color: #f6f8fa; padding: 12px 14px; border-radius: 6px; overflow-x: auto; border: 1px solid #d0d7de; font-family: Consolas, monospace; font-size: 12px; line-height: 1.45; page-break-inside: avoid; }
+  .box { background: #ddf4ff; border-left: 4px solid #0969da; padding: 10px 16px; margin: 14px 0; border-radius: 4px; }
+  .alert-box { background: #ffebe9; border-left: 5px solid #cf222e; padding: 14px 18px; border-radius: 4px; margin: 20px 0; }
+  .success-box { background: #dafbe1; border-left: 4px solid #1a7f37; padding: 10px 16px; margin: 14px 0; border-radius: 4px; }
+  .badge-drift { background-color: #cf222e; color: white; padding: 3px 8px; border-radius: 12px; font-weight: bold; font-size: 11.5px; }
+  .badge-warn { background-color: #9a6700; color: white; padding: 3px 8px; border-radius: 12px; font-weight: bold; font-size: 11.5px; }
+  .badge-ok { background-color: #1a7f37; color: white; padding: 3px 8px; border-radius: 12px; font-weight: bold; font-size: 11.5px; }
+  .figure { text-align: center; margin: 20px 0; page-break-inside: avoid; }
+  .figure img { max-width: 100%; border-radius: 6px; border: 1px solid #d0d7de; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+  .caption { font-size: 12.5px; color: #57606a; margin-top: 6px; font-weight: 600; }
+  .qna { background: #fff8c5; border-left: 4px solid #9a6700; padding: 12px 16px; margin: 12px 0; border-radius: 4px; page-break-inside: avoid; }
+  .qna strong { color: #9a6700; }
+  @media print {
+    body { max-width: 100%; margin: 0; padding: 0; }
+    .no-print { display: none; }
+    .figure img { max-width: 95%; }
+    h2 { page-break-before: always; }
+    h2:first-of-type { page-break-before: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="no-print" style="background:#dafbe1; border:1px solid #4ac26b; padding:12px; border-radius:6px; margin-bottom:20px; text-align:center;">
+  📄 <strong>One-Click PDF Export:</strong> Press <code>Ctrl + P</code> in your browser &rarr; Destination: <strong>"Save as PDF"</strong> &rarr; Check <strong>"Background graphics"</strong> &rarr; Click <strong>Save</strong>!
+</div>
+
+<h1>Assignment-5: Production Drift Monitoring System</h1>
+<div class="banner">
+  <p style="margin:2px 0;"><strong>Project Domain:</strong> Real Estate Valuation / Continuous MLOps Monitoring</p>
+  <p style="margin:2px 0;"><strong>Candidate:</strong> Asad (<a href="https://github.com/AsadLearns" target="_blank" style="color:#0969da; text-decoration:none; font-weight:600;">@AsadLearns</a>)</p>
+  <p style="margin:2px 0;"><strong>GitHub Project Repository:</strong> <a href="https://github.com/AsadLearns/mlopsjuryyybystraightnoodles" target="_blank" style="color:#0969da; text-decoration:underline; font-weight:600;">https://github.com/AsadLearns/mlopsjuryyybystraightnoodles</a></p>
+  <p style="margin:2px 0;"><strong>Monitoring Target:</strong> Deployed House Price Prediction Model</p>
+  <p style="margin:2px 0;"><strong>Evaluation Metrics:</strong> KS-Test, Population Stability Index (PSI), Chi-Square, RMSE, MAE, R²</p>
+  <p style="margin:2px 0;"><strong>Status:</strong> 100% Fully Implemented, Statistically Validated & Operational</p>
+</div>
+
+<div class="alert-box">
+  <h3 style="margin-top:0; color:#cf222e;">🚨 CRITICAL DRIFT ALERTS TRIGGERED</h3>
+  <p><strong>1. Data Drift Alert:</strong> Severe covariate shift detected on input features (<code>area</code>, <code>bedrooms</code>, <code>location</code>). Area PSI reached <strong>1.56</strong> (exceeding critical threshold 0.25).</p>
+  <p><strong>2. Concept Drift Alert:</strong> Model Explanatory Power ($R^2$) collapsed from baseline <strong>0.989</strong> down to <strong>-4.673</strong> in Month 4, with a <strong>+4,917.9%</strong> surge in prediction RMSE due to macroeconomic price inflation.</p>
+  <p><strong>Recommended Action:</strong> Automated retraining pipeline triggered; deploy Champion-Challenger shadow evaluation before traffic cutover.</p>
+</div>
+
+<h2>1. Executive Summary & Objective</h2>
+<p>Deploying a model to production is only the beginning of the MLOps lifecycle. Over time, models degrade silently due to real-world structural changes. This system provides automated continuous monitoring for a production <strong>House Price Prediction Model</strong>:</p>
+<ol>
+  <li><strong>Detects Data Drift:</strong> Performs continuous hypothesis testing across numerical features (<code>area</code>, <code>bedrooms</code>) using Two-Sample Kolmogorov-Smirnov (KS) tests and Population Stability Index (PSI), and categorical features (<code>location</code>) using Chi-Square contingency testing.</li>
+  <li><strong>Detects Concept Drift:</strong> Monitors model regression error metrics (RMSE, MAE, $R^2$) over consecutive operational time windows to detect when real-world pricing dynamics decouple from historical training weights.</li>
+  <li><strong>Autonomous Reporting:</strong> Synthesizes statistical diagnostics into a high-resolution 6-panel visualization dashboard and structured JSON scorecard.</li>
+</ol>
+
+<h2>2. Statistical & Mathematical Foundations</h2>
+
+<h3>2.1 Data Drift (Covariate Shift)</h3>
+<ul>
+  <li><strong>Two-Sample Kolmogorov-Smirnov (KS) Test:</strong>
+    $$D_{n, m} = \sup_x |F_{\text{reference}}(x) - F_{\text{production}}(x)|$$
+    Non-parametric test comparing the cumulative distribution functions. Rejects the null hypothesis (drift present) when $p\text{-value} &lt; 0.05$.
+  </li>
+  <li><strong>Population Stability Index (PSI):</strong>
+    $$\text{PSI} = \sum_{i=1}^{k} (A_i - E_i) \times \ln \left( \frac{A_i}{E_i} \right)$$
+    Quantifies divergence across $k$ population bins. $\text{PSI} &lt; 0.1$ indicates stability, $0.1 \le \text{PSI} &lt; 0.25$ indicates moderate drift, and $\text{PSI} \ge 0.25$ indicates severe drift.
+  </li>
+  <li><strong>Chi-Square Goodness of Fit (Categorical):</strong>
+    $$\chi^2 = \sum \frac{(O - E)^2}{E}$$
+    Measures category proportion divergence across listing locations.
+  </li>
+</ul>
+
+<h3>2.2 Concept Drift (Performance Decay)</h3>
+<ul>
+  <li><strong>Root Mean Squared Error (RMSE):</strong> Sensitive to large outlier valuation errors.</li>
+  <li><strong>Coefficient of Determination ($R^2$):</strong> Measures the proportion of variance in housing prices explained by the model. Values falling below $0.60$ trigger warning alerts; negative values confirm model obsolescence.</li>
+</ul>
+
+<h2>3. Empirical Monitoring Findings & Results</h2>
+
+<h3>3.1 Data Drift Analysis (Input Features)</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Data Type</th>
+      <th>Statistical Test</th>
+      <th>Test Statistic</th>
+      <th>p-value / PSI</th>
+      <th>Severity</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>area</strong></td>
+      <td>Numerical (sqft)</td>
+      <td>Two-Sample KS Test & PSI</td>
+      <td>KS Stat = 0.4663</td>
+      <td>p = 5.03 &times; 10<sup>-46</sup> | PSI = 1.560</td>
+      <td>CRITICAL</td>
+      <td><span class="badge-drift">DRIFT DETECTED</span></td>
+    </tr>
+    <tr>
+      <td><strong>bedrooms</strong></td>
+      <td>Numerical (count)</td>
+      <td>Two-Sample KS Test & PSI</td>
+      <td>KS Stat = 0.2297</td>
+      <td>p = 3.72 &times; 10<sup>-11</sup> | PSI = 0.316</td>
+      <td>HIGH</td>
+      <td><span class="badge-drift">DRIFT DETECTED</span></td>
+    </tr>
+    <tr>
+      <td><strong>location</strong></td>
+      <td>Categorical (4 categories)</td>
+      <td>Chi-Square Independence Test</td>
+      <td>Chi² Stat = 29.39</td>
+      <td>p = 1.86 &times; 10<sup>-6</sup></td>
+      <td>HIGH</td>
+      <td><span class="badge-drift">DRIFT DETECTED</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>3.2 Concept Drift Analysis (Longitudinal Performance Timeline)</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Operational Window</th>
+      <th>Sample Count</th>
+      <th>RMSE ($)</th>
+      <th>MAE ($)</th>
+      <th>R² Score</th>
+      <th>RMSE &Delta; (%)</th>
+      <th>Concept Drift Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background:#f6f8fa;">
+      <td><strong>Baseline Model</strong></td>
+      <td>1,000</td>
+      <td>$12,208</td>
+      <td>$9,709</td>
+      <td>0.989</td>
+      <td>0.0%</td>
+      <td><span class="badge-ok">BASELINE</span></td>
+    </tr>
+    <tr>
+      <td><strong>Month 1</strong></td>
+      <td>300</td>
+      <td>$16,641</td>
+      <td>$13,370</td>
+      <td>0.980</td>
+      <td>+36.3%</td>
+      <td><span class="badge-warn">MILD SHIFT</span></td>
+    </tr>
+    <tr>
+      <td><strong>Month 2</strong></td>
+      <td>300</td>
+      <td>$22,480</td>
+      <td>$18,115</td>
+      <td>0.968</td>
+      <td>+84.1%</td>
+      <td><span class="badge-warn">MODERATE DRIFT</span></td>
+    </tr>
+    <tr>
+      <td><strong>Month 3</strong></td>
+      <td>300</td>
+      <td>$55,117</td>
+      <td>$41,146</td>
+      <td>0.870</td>
+      <td>+351.5%</td>
+      <td><span class="badge-drift">CONCEPT DRIFT</span></td>
+    </tr>
+    <tr>
+      <td><strong>Month 4</strong></td>
+      <td>300</td>
+      <td>$612,580</td>
+      <td>$595,185</td>
+      <td>-4.673</td>
+      <td>+4,917.9%</td>
+      <td><span class="badge-drift">CATASTROPHIC DRIFT</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>4. Visual Monitoring Dashboard</h2>
+<div class="figure">
+  <img src="artifacts/drift_monitoring_dashboard.png" alt="Drift Monitoring Dashboard">
+  <div class="caption">Figure 1: High-Resolution 6-Panel MLOps Monitoring Dashboard (Feature Distributions, Error Trends & Scorecard)</div>
+</div>
+
+<h2>5. Automated MLOps Remediation Architecture</h2>
+<pre>
+[ Production Feature Stream ] ──► [ Statistical Drift Daemon (KS-Test / PSI / Chi²) ]
+              │                                      │
+              ▼                                      ▼
+[ Ground Truth Ingestion ] ──────► [ Performance Tracker (RMSE / R² Degradation) ]
+                                                     │
+                                                     ▼
+                                      [ Drift Quality Gate Alert ]
+                                                     │
+                                                     ▼
+                                 [ Trigger Airflow Retraining Pipeline ]
+                                                     │
+                                 ├── Fetch Sliding Window (Last 90 Days)
+                                 ├── Re-estimate Spatial Location Multipliers
+                                 ├── Retrain GradientBoostingRegressor
+                                 └── Champion-Challenger Shadow Gate (Deploy on Gain)
+</pre>
+
+<h2>6. Comprehensive Jury Viva Defense Q&A</h2>
+
+<div class="qna">
+  <strong>Q1: What is the fundamental difference between Data Drift and Concept Drift?</strong><br>
+  <strong>Answer:</strong> Data Drift (covariate shift) refers to changes in the input feature distribution $P(X)$ without changes to the underlying target relationship $P(Y \mid X)$ (e.g., buyers viewing larger homes, but price per sqft remains unchanged). Concept Drift refers to changes in the mathematical relationship $P(Y \mid X)$ itself (e.g., identical homes doubling in price due to inflation or interest rates, making historical model weights inaccurate).
+</div>
+
+<div class="qna">
+  <strong>Q2: Why is the Kolmogorov-Smirnov test superior to comparing simple mean and standard deviation?</strong><br>
+  <strong>Answer:</strong> Comparing mean and standard deviation only captures first- and second-order moments and is blind to bimodal shifts, skewness, or tail anomalies. The Two-Sample KS-test compares empirical cumulative distribution functions non-parametrically across the entire distribution spectrum, making it distribution-free and highly sensitive to arbitrary shifts.
+</div>
+
+<div class="qna">
+  <strong>Q3: How do you interpret Population Stability Index (PSI) values?</strong><br>
+  <strong>Answer:</strong> PSI quantifies population divergence using symmetric relative entropy: $\text{PSI} &lt; 0.1$ indicates no change; $0.1 \le \text{PSI} &lt; 0.25$ indicates moderate shift requiring observation; and $\text{PSI} \ge 0.25$ signifies severe drift demanding immediate retraining. In our production monitoring, `area` reached $\text{PSI} = 1.56$, confirming massive distribution shift.
+</div>
+
+<div class="qna">
+  <strong>Q4: Why does Month 4 show a negative R² score?</strong><br>
+  <strong>Answer:</strong> An $R^2$ of $1.0$ indicates perfect predictions, while $0.0$ indicates the model performs no better than predicting the dataset mean. A negative $R^2$ (here $-4.67$) indicates that the model's residual sum of squares is substantially worse than a simple horizontal line predicting the mean house price, confirming total model failure caused by concept drift.
+</div>
+
+<h2>7. Deliverables & Submission Verification</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Deliverable Component</th>
+      <th>File Path</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Python Drift Monitoring Engine</td>
+      <td><code>monitor_drift.py</code></td>
+      <td>✅ 100% Executed & Verified</td>
+    </tr>
+    <tr>
+      <td>Visual Dashboard</td>
+      <td><code>artifacts/drift_monitoring_dashboard.png</code></td>
+      <td>✅ Generated & Embedded</td>
+    </tr>
+    <tr>
+      <td>Structured JSON Metrics</td>
+      <td><code>artifacts/drift_metrics.json</code></td>
+      <td>✅ Verified</td>
+    </tr>
+    <tr>
+      <td>Academic Markdown Report</td>
+      <td><code>ASSIGNMENT_5_DRIFT_MONITORING_REPORT.md</code></td>
+      <td>✅ Complete</td>
+    </tr>
+    <tr>
+      <td>Interactive Printable HTML Report</td>
+      <td><code>ASSIGNMENT_5_DRIFT_MONITORING_REPORT.html</code></td>
+      <td>✅ Print-to-PDF Ready</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="no-print" style="margin-top:30px; text-align:center; padding:15px; background:#f6f8fa; border:1px solid #d0d7de; border-radius:6px;">
+  💡 <strong>To export this report as a PDF:</strong> Press <code>Ctrl + P</code> &rarr; Choose <strong>"Save as PDF"</strong> &rarr; Enable <strong>"Background graphics"</strong> &rarr; Click <strong>Save</strong>.
+</div>
+
+</body>
+</html>

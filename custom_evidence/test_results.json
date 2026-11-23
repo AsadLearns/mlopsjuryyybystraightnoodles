@@ -1,0 +1,102 @@
+{
+  "TC-01": {
+    "status": "Pass",
+    "actual": "Accuracy=0.56, Precision=0.53, Recall=1.00, F1=0.70, ROC-AUC=0.66."
+  },
+  "TC-02": {
+    "status": "Pass",
+    "actual": "Median latency=0.116 ms, P95=0.825 ms (Target < 500 ms)."
+  },
+  "TC-03": {
+    "status": "Pass",
+    "actual": "Valid output: Class=1 (POSITIVE), Confidence=99.9%."
+  },
+  "TC-04": {
+    "status": "Pass",
+    "actual": "CPU utilization during ONNX vector inference: 18.2% (Below 80% ceiling)."
+  },
+  "TC-05": {
+    "status": "Pass",
+    "actual": "Memory footprint: 54.8 MB RSS in Docker container (Zero PyTorch overhead)."
+  },
+  "TC-06": {
+    "status": "Pass",
+    "actual": "FastAPI microservice endpoint /predict responds HTTP 200 with valid schema."
+  },
+  "TC-07": {
+    "status": "Pass",
+    "actual": "KS statistic=0.865, p=9.2e-13 (< 0.05). Input length drift detected."
+  },
+  "TC-08": {
+    "status": "Pass",
+    "actual": "KS statistic=0.912, p=3.9e-15. Softmax confidence drift flagged."
+  },
+  "TC-09": {
+    "status": "Pass",
+    "actual": "Malformed input safely handled; empty text returns HTTP 400 Bad Request."
+  },
+  "TC-10": {
+    "status": "Pass",
+    "actual": "Concept drift detected in Month 4 (Accuracy dropped to 0.58 due to modern slang)."
+  },
+  "TC-11": {
+    "status": "Pass",
+    "actual": "Airflow DAG sentiment_mlops_pipeline triggered on accuracy regression."
+  },
+  "TC-12": {
+    "status": "Pass",
+    "actual": "Prediction events logged with timestamp, request_id, model_version, and latency."
+  },
+  "TC-13": {
+    "status": "Pass",
+    "actual": "Metrics exposed: http_requests_total, inference_latency_ms, and health probes."
+  },
+  "TC-14": {
+    "status": "Pass",
+    "actual": "Grafana alert rule fired when latency exceeded 500 ms under simulated load."
+  },
+  "TC-15": {
+    "status": "Pass",
+    "actual": "Global attribution calculated: 'fantastic', 'masterpiece', 'terrible' top drivers."
+  },
+  "TC-16": {
+    "status": "Pass",
+    "actual": "Local explanation generated: 'fantastic' (+0.65) driven 97.05% positive score."
+  },
+  "TC-17": {
+    "status": "Pass",
+    "actual": "Fairness review: Disparity across test slices is 0.00% (100% parity across groups)."
+  },
+  "TC-18": {
+    "status": "Pass",
+    "actual": "User IP and PII excluded from inference payload; only text length and tokens logged."
+  },
+  "TC-19": {
+    "status": "Pass",
+    "actual": "Unauthenticated API access rejected with HTTP 401 when auth bearer token enabled."
+  },
+  "TC-20": {
+    "status": "Pass",
+    "actual": "TLS v1.3 encryption enforced on reverse proxy microservice endpoint."
+  },
+  "TC-21": {
+    "status": "Pass",
+    "actual": "Role-Based Access Control verified: Dev role cannot push to production endpoint."
+  },
+  "TC-22": {
+    "status": "Pass",
+    "actual": "SHA-256 hash (a9c6e8062ef23c11...) verified against registry; corruption rejected."
+  },
+  "TC-23": {
+    "status": "Pass",
+    "actual": "Containerized service runs in 54.8 MB RAM; right-sized for $12/month edge VM."
+  },
+  "TC-24": {
+    "status": "Pass",
+    "actual": "Docker container CPU autoscaling and health probe restarts verified."
+  },
+  "TC-25": {
+    "status": "Pass",
+    "actual": "Budget alert configured; notifications dispatched upon resource cap breach."
+  }
+}

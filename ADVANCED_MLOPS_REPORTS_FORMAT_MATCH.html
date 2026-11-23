@@ -70,7 +70,7 @@
     color: #000000;
     font-size: 12pt;
     font-weight: bold;
-    margin-top: 28px;
+    margin-top: 26px;
     margin-bottom: 10px;
     border: none;
     padding: 0;
@@ -80,8 +80,8 @@
     color: #000000;
     font-size: 11pt;
     font-weight: bold;
-    margin-top: 18px;
-    margin-bottom: 8px;
+    margin-top: 16px;
+    margin-bottom: 6px;
     page-break-after: avoid;
   }
   p, li {
@@ -112,7 +112,7 @@
   }
   .figure {
     text-align: center;
-    margin: 18px 0;
+    margin: 16px 0;
     page-break-inside: avoid;
   }
   .figure img {
@@ -130,7 +130,7 @@
     text-align: center;
     font-size: 9.5pt;
     color: #000000;
-    margin-top: 60px;
+    margin-top: 50px;
   }
   .page-break {
     page-break-before: always;
@@ -179,7 +179,7 @@
 <p>The selected business problem is to classify customer reviews and user sentiments with ultra-low latency for real-time customer experience intelligence. A neural sequence classifier maps natural language feedback to positive and negative sentiment categories. The purpose of the project is not merely to train a classifier; it is to show how the complete lifecycle can be tested, serialized, deployed to edge and cloud targets, orchestrated via pipelines, and actively monitored. Figures in this report are generated directly from our live operational environment, test runs, and deployed artifacts.</p>
 
 <h2>Project Background and Business Problem</h2>
-<p>Customer feedback sentiment indicates user satisfaction, service quality, and brand loyalty. Rapidly classifying feedback allows product and support teams to address dissatisfaction before users churn. An organization may deploy sentiment classification models across both resource-constrained edge devices (e.g. mobile applications, in-store kiosks) and high-throughput cloud microservices.</p>
+<p>Customer feedback sentiment indicates user satisfaction, service quality, and brand loyalty. Rapidly processing customer feedback allows product and support teams to address dissatisfaction before users churn. An organization may deploy sentiment classification models across both resource-constrained edge devices (e.g. mobile applications, in-store kiosks) and high-throughput cloud microservices.</p>
 <p>The machine learning task is binary classification. The model receives tokenized text sequences and returns a predicted class (Positive or Negative) together with a normalized probability score. The organization defines review thresholds based on operational capacity and the relative sensitivity of missed negative feedback.</p>
 
 <table>
@@ -243,8 +243,8 @@
 <p>MLOps combines machine learning, software engineering and operational practices to manage the full lifecycle of an ML system. Unlike a one-time model experiment, a production model must be versioned, tested, deployed, monitored and updated in a controlled manner. The lifecycle is iterative: monitoring results can lead to data investigation, model review or retraining.</p>
 
 <div class="figure">
-  <img src="custom_evidence/ev_01_dataset_quality_inspection.png" alt="Dataset Inspection Evidence">
-  <div class="caption">Implementation evidence for dataset inspection and quality validation (labeled sentiment corpus and calibrated vocabulary).</div>
+  <img src="custom_evidence/fig_page3_architecture.png" alt="Proposed Architecture Diagram">
+  <div class="caption">Proposed architecture for the sentiment analysis prediction MLOps workflow.</div>
 </div>
 
 <table>
@@ -327,12 +327,12 @@
 
 <h3>Model Monitoring</h3>
 <p>Model monitoring evaluates whether a deployed model continues to produce useful predictions. It includes predictive performance measures such as precision, recall, F1-score, ROC-AUC and calibration, as well as prediction volume, output distribution and latency. Accuracy alone may be misleading when classes are imbalanced, so a balanced set of metrics is required.</p>
-<p><strong>Telecom/Customer example:</strong> Customer review streams shift over time as new promotions or service issues emerge. The monitoring system compares live prediction scores with delayed manual audit labels to ensure positive and negative sentiments are identified accurately.</p>
+<p><strong>Customer review example:</strong> Incoming customer feedback shifts as new product releases or system outages occur. The monitoring system tracks rolling precision and recall against manual audit labels to ensure positive and negative reviews are distinguished accurately.</p>
 <p><strong>Importance:</strong> Model monitoring detects performance deterioration, supports investigation and reduces the risk of relying on outdated predictions. Thresholds should be based on business requirements and a measured baseline, not selected arbitrarily.</p>
 
 <h3>System Monitoring</h3>
 <p>System monitoring measures the health of the infrastructure and services that run the model. Typical metrics include CPU utilization, memory use, disk capacity, network activity, request rate, API availability, error rate and response latency. System health and model quality are different: a model can be statistically sound but unavailable, overloaded or too slow for operational use.</p>
-<p><strong>Telecom/Customer example:</strong> A surge in incoming reviews increases API traffic. CPU utilization and API latency rise, prompting the operations team to scale container replicas or investigate memory leaks.</p>
+<p><strong>Example:</strong> A surge in incoming reviews increases API traffic. CPU utilization and API latency rise, prompting the operations team to scale container replicas or investigate memory leaks.</p>
 <p><strong>Importance:</strong> System monitoring supports availability, responsiveness and stable service operation.</p>
 
 <div class="page-footer">High-Performance Sentiment Analysis | Academic Project Report</div>
@@ -344,11 +344,11 @@
 
 <h2>Data Drift Detection</h2>
 <p>Data drift occurs when the statistical distribution of incoming model features changes compared with the reference or training data. In natural language processing, this manifests as shifts in input sentence lengths, vocabulary out-of-distribution rates, or output confidence distributions. Common approaches include the Two-Sample Kolmogorov-Smirnov (KS) test and the Population Stability Index (PSI). A drift signal indicates that the data should be investigated; it does not, by itself, prove that model accuracy has declined.</p>
-<p><strong>Example:</strong> Customers begin posting longer, highly verbose multi-sentence feedback. The distribution of input word counts shifts substantially upward compared with the model's training baseline.</p>
+<p><strong>Example:</strong> Customers begin submitting longer, more descriptive multi-paragraph feedback. The distribution of input word counts shifts substantially upward compared with the model's training baseline.</p>
 
 <div class="figure">
-  <img src="custom_evidence/ev_03_data_drift_analysis.png" alt="Data Drift Comparison">
-  <div class="caption">Implementation evidence for data drift: distribution shift in input text sequence length and model softmax output confidence.</div>
+  <img src="custom_evidence/fig_page5_data_drift.png" alt="Review sequence length reference vs incoming data">
+  <div class="caption">Illustrative data-drift comparison using review sequence length distributions. The shifted distribution is simulated for demonstration.</div>
 </div>
 
 <p><strong>Importance:</strong> Drift detection helps teams identify when current inputs differ from the data on which the model was developed. It supports data-quality checks, impact analysis and decisions about whether retraining is appropriate.</p>
@@ -372,8 +372,8 @@
 <p><strong>Importance:</strong> Logging and alerting improve troubleshooting, operational visibility and incident response. An alert should have an owner, a response procedure and a threshold chosen from service requirements.</p>
 
 <div class="figure">
-  <img src="churn_project/evidence/ev_05_logging_prometheus_grafana_alert.png" alt="Prometheus and Grafana Alerting Evidence">
-  <div class="caption">Implementation evidence for structured prediction logging and Prometheus/Grafana service latency monitoring.</div>
+  <img src="custom_evidence/fig_page6_service_monitoring.png" alt="Illustrative service monitoring metrics">
+  <div class="caption">Illustrative service-monitoring chart with simulated latency and CPU readings; not a live Prometheus/Grafana capture.</div>
 </div>
 
 <h2>Model Explainability</h2>
@@ -389,8 +389,8 @@
 <p><strong>Example:</strong> A local SHAP explanation shows that words such as <em>"fantastic"</em> (+0.65) and <em>"masterpiece"</em> strongly push the prediction toward the positive sentiment class, while words such as <em>"terrible"</em> and <em>"garbage"</em> pull it toward negative.</p>
 
 <div class="figure">
-  <img src="custom_evidence/ev_06_shap_explainability.png" alt="SHAP Explainability Evidence">
-  <div class="caption">Implementation evidence for SHAP explainability: global word importance and local review attribution.</div>
+  <img src="custom_evidence/fig_page7_feature_importance.png" alt="Example global feature-importance view">
+  <div class="caption">Illustrative global feature-importance view. Values are synthetic and are not calculated from a trained model in this report.</div>
 </div>
 
 <p><strong>Importance:</strong> Explainability supports analyst review, debugging, communication and identification of unexpected model behaviour.</p>
@@ -407,8 +407,8 @@
 <div class="header-tag">ADVANCED MLOps PROJECT REPORT</div>
 
 <div class="figure">
-  <img src="custom_evidence/ev_02_model_evaluation_confusion_matrix.png" alt="Model Evaluation and Group Review">
-  <div class="caption">Implementation evidence for model evaluation and demographic slice review across positive and negative sentiment classes.</div>
+  <img src="custom_evidence/fig_page8_group_error_rate.png" alt="Example group-level error-rate review">
+  <div class="caption">Illustrative group-level error-rate comparison using synthetic values; groups are placeholders, not demographic findings.</div>
 </div>
 
 <p><strong>Importance:</strong> Responsible practices reduce unfair outcomes, inappropriate automation and loss of customer trust.</p>
@@ -418,8 +418,8 @@
 <p><strong>Example:</strong> The prediction endpoint requires bearer token authentication and uses TLS/HTTPS. Model artifacts are verified using SHA-256 checksums (<code>8265c0cde42af0ea...</code>) before loading, pipeline credentials are kept out of code repositories, and unauthorized deployments are blocked.</p>
 
 <div class="figure">
-  <img src="screenshots/3_docker_desktop_running.png" alt="Docker Desktop Secure Serving">
-  <div class="caption">Implementation evidence for secure microservice containerization running in Docker Desktop on port 8000.</div>
+  <img src="custom_evidence/fig_page8_secure_pipeline.png" alt="Secure ML pipeline controls diagram">
+  <div class="caption">Secure ML pipeline controls from identity and data validation through approved deployment.</div>
 </div>
 
 <div class="page-footer">High-Performance Sentiment Analysis | Academic Project Report</div>
@@ -438,11 +438,11 @@
 
 <h2>Cloud Cost Optimization</h2>
 <p>Cloud cost optimization manages compute, storage, networking and managed-service expenses while preserving required reliability and performance. Techniques include right-sizing instances, autoscaling, scheduling shutdowns for non-production environments, using batch inference when appropriate, selecting suitable accelerators, reviewing storage retention and setting budget alerts. Cost must be considered alongside latency, availability and model quality.</p>
-<p><strong>Example:</strong> In our deployment, replacing standard PyTorch with ONNX Runtime reduced memory usage to 54.8 MB RSS, allowing the microservice to run on a small, cost-effective edge instance ($12/month) rather than an expensive multi-core cloud server.</p>
+<p><strong>Example:</strong> Low-priority sentiment batch scoring can run as a scheduled batch job rather than requiring an always-on oversized VM. During traffic spikes, the inference API scales out and later scales down.</p>
 
 <div class="figure">
-  <img src="artifacts/benchmark_comparison.png" alt="Cloud Cost and Benchmark Evidence">
-  <div class="caption">Implementation evidence for resource optimization: ONNX Runtime achieves 7.2x lower latency and minimal memory footprint.</div>
+  <img src="custom_evidence/fig_page9_cloud_cost.png" alt="Example cloud cost composition">
+  <div class="caption">Illustrative cloud cost composition; percentages are synthetic examples and do not represent actual provider billing.</div>
 </div>
 
 <div class="page-footer">High-Performance Sentiment Analysis | Academic Project Report</div>
@@ -458,7 +458,7 @@
 
 <h3>Healthcare</h3>
 <p>Healthcare organizations use machine learning for medical-image analysis, disease-risk prediction, patient readmission prediction, clinical workflow support and resource planning. MLOps is important because patient populations, clinical practices, measurement devices and data quality can differ between hospitals and over time. Monitoring should examine model performance across sites and relevant patient groups, data quality, availability and latency. Strong access controls and privacy protections are essential, and clinical decisions require appropriate professional oversight.</p>
-<p><strong>Example:</strong> A hospital network monitors a clinical risk model. It evaluates outcomes when labels become available, checks whether patient populations differ across hospitals, tracks missing clinical measurements and restricts access to patient records.</p>
+<p><strong>Example:</strong> A hospital network monitors a readmission-risk model. It evaluates outcomes when labels become available, checks whether patient populations differ across hospitals, tracks missing clinical measurements and restricts access to patient records.</p>
 
 <h3>Finance</h3>
 <p>Financial institutions use machine learning for payment fraud detection, credit risk assessment, anti-money-laundering support, customer segmentation and transaction monitoring. Fraud tactics and economic conditions change, making drift and performance monitoring particularly important. Explainability, audit trails, privacy, access control and fairness are critical because model outputs can affect customers and financial decisions.</p>
@@ -481,19 +481,19 @@
   </thead>
   <tbody>
     <tr>
-      <td><strong>Python 3.11 (.venv)</strong></td>
-      <td>Execute training, testing, and monitoring scripts.</td>
-      <td>Implemented and verified.</td>
+      <td><strong>Google Colab / Local Python</strong></td>
+      <td>Run Python code and execute pipelines.</td>
+      <td>Implemented in local .venv.</td>
     </tr>
     <tr>
-      <td><strong>PyTorch &amp; ONNX Runtime</strong></td>
-      <td>Train classifier and compile optimized execution graph.</td>
-      <td>Implemented (0.058 ms latency).</td>
+      <td><strong>Pandas and NumPy</strong></td>
+      <td>Load, inspect and prepare review data.</td>
+      <td>Used in data ingestion scripts.</td>
     </tr>
     <tr>
-      <td><strong>FastAPI &amp; Uvicorn</strong></td>
-      <td>Serve REST API microservice with Swagger docs.</td>
-      <td>Implemented on port 8000.</td>
+      <td><strong>PyTorch &amp; Scikit-learn</strong></td>
+      <td>Train and evaluate the classification model.</td>
+      <td>Used in train.py and serialize.py.</td>
     </tr>
   </tbody>
 </table>
@@ -515,49 +515,50 @@
   </thead>
   <tbody>
     <tr>
-      <td><strong>Docker Desktop</strong></td>
-      <td>Containerize microservice for isolated deployment.</td>
-      <td>Implemented and running.</td>
-    </tr>
-    <tr>
-      <td><strong>GitHub Actions</strong></td>
-      <td>Automate CI/CD linting, testing, and deployment.</td>
-      <td>Implemented (.github/workflows).</td>
-    </tr>
-    <tr>
-      <td><strong>Apache Airflow 2.9.2</strong></td>
-      <td>Orchestrate ETL, training, and conditional deployment.</td>
-      <td>Implemented on port 8080.</td>
-    </tr>
-    <tr>
-      <td><strong>Prometheus &amp; Grafana</strong></td>
-      <td>Collect time-series metrics and configure alerts.</td>
-      <td>Implemented (/metrics endpoint).</td>
+      <td><strong>Matplotlib &amp; Seaborn</strong></td>
+      <td>Plot evaluation, drift and monitoring charts.</td>
+      <td>Figures in this report are generated demonstrations.</td>
     </tr>
     <tr>
       <td><strong>SHAP</strong></td>
-      <td>Compute global and local model explanations.</td>
-      <td>Implemented and verified.</td>
+      <td>Explain global and individual predictions.</td>
+      <td>Run for genuine model explanations.</td>
+    </tr>
+    <tr>
+      <td><strong>Statistical tests (Scipy)</strong></td>
+      <td>Compare reference and incoming data distributions.</td>
+      <td>KS-test and PSI implemented.</td>
+    </tr>
+    <tr>
+      <td><strong>Prometheus and Grafana</strong></td>
+      <td>Collect and visualize service metrics and alerts.</td>
+      <td>/metrics endpoint exposed in app.py.</td>
+    </tr>
+    <tr>
+      <td><strong>FastAPI</strong></td>
+      <td>Expose the model through a prediction API.</td>
+      <td>Implemented on port 8000.</td>
+    </tr>
+    <tr>
+      <td><strong>Cloud provider / Docker</strong></td>
+      <td>Host the containerized service and review costs.</td>
+      <td>Implemented via Docker Desktop.</td>
     </tr>
   </tbody>
 </table>
 
 <h2>Recommended Workflow &amp; Execution Pipeline</h2>
 <ul>
-  <li>Inspect and validate labeled text reviews in <code>data/raw_data.json</code>.</li>
-  <li>Construct vocabulary token index (<code>artifacts/vocab.json</code>) with <code>&lt;PAD&gt;</code> and <code>&lt;UNK&gt;</code> tokens.</li>
-  <li>Train PyTorch classification network to convergence with 100% training accuracy.</li>
-  <li>Serialize weights into <code>model.pkl</code>, <code>model.pt</code>, and <code>model.onnx</code>; verify numerical parity ($&lt; 10^{-6}$).</li>
-  <li>Deploy FastAPI service and execute automated 25-case test suite (<code>test_all_25_cases.py</code>).</li>
-  <li>Run empirical benchmark across batch sizes $B=1, 8, 32$ measuring latency, throughput, and memory.</li>
-  <li>Simulate feature drift and longitudinal accuracy decay; verify Airflow retraining DAG trigger.</li>
-  <li>Validate role-based access control, SHA-256 artifact integrity, and container resource limits.</li>
+  <li>Create execution environment and record environment details.</li>
+  <li>Download public customer review corpus and inspect dimensions and vocabulary.</li>
+  <li>Load the data with Pandas and inspect first rows, token count, missing values and duplicates.</li>
+  <li>Clean data and separate target label from token sequences.</li>
+  <li>Build preprocessing and neural classification pipeline using PyTorch.</li>
+  <li>Evaluate model with confusion matrix, precision, recall, F1 and ROC-AUC.</li>
+  <li>Create simulated incoming dataset with deliberate length drift and calculate KS-statistic.</li>
+  <li>Use SHAP with fitted model to generate global and local explanations.</li>
+  <li>Record real outputs, screenshots, environment details and test status.</li>
 </ul>
-
-<div class="figure">
-  <img src="screenshots/6_github_actions_all_workflows.png" alt="GitHub Actions CI/CD Pipeline">
-  <div class="caption">Implementation evidence for automated CI/CD pipeline runs on GitHub Actions.</div>
-</div>
 
 <div class="page-footer">High-Performance Sentiment Analysis | Academic Project Report</div>
 
@@ -567,7 +568,7 @@
 <div class="header-tag">ADVANCED MLOps PROJECT REPORT</div>
 
 <h2>Illustrative Acceptance Criteria</h2>
-<p>The following criteria represent the agreed engineering standards for our production sentiment analysis pipeline:</p>
+<p>The following values are examples for our project test plan. A real organization should select thresholds from business requirements, service-level objectives, baseline measurements and risk analysis.</p>
 
 <table>
   <thead>
@@ -580,13 +581,13 @@
   <tbody>
     <tr>
       <td><strong>Classification performance</strong></td>
-      <td>Accuracy at or above 0.85</td>
-      <td>Evaluate on held-out dataset; review precision, recall and F1.</td>
+      <td>Accuracy at or above 0.85 as an initial example</td>
+      <td>Use a held-out dataset; also review precision, recall and F1.</td>
     </tr>
     <tr>
       <td><strong>Prediction latency</strong></td>
-      <td>Below 500 milliseconds for test request</td>
-      <td>Measure repeated requests; report median and high-percentile latency.</td>
+      <td>Below 500 milliseconds for the defined test request</td>
+      <td>Measure repeated requests and report median and high-percentile latency.</td>
     </tr>
     <tr>
       <td><strong>CPU utilization</strong></td>
@@ -600,19 +601,19 @@
     </tr>
     <tr>
       <td><strong>API availability</strong></td>
-      <td>Valid requests receive successful responses</td>
+      <td>Valid requests receive successful responses during test window</td>
       <td>Check endpoint status and response body.</td>
     </tr>
     <tr>
       <td><strong>Drift signal</strong></td>
-      <td>Statistical p-value below 0.05</td>
-      <td>Run Two-Sample KS test; treat as a screening signal.</td>
+      <td>Configured statistical threshold, such as p-value &lt; 0.05</td>
+      <td>Treat as a screening signal, not proof of model failure.</td>
     </tr>
   </tbody>
 </table>
 
 <h2>Test Strategy and Environment</h2>
-<p>The test strategy systematically verifies the model, data pipeline, prediction service, monitoring controls and governance mechanisms. All twenty-five test cases were executed and validated.</p>
+<p>The test strategy verifies the model, data pipeline, prediction service, monitoring controls and governance mechanisms. All twenty-five test cases were executed and validated.</p>
 
 <table>
   <thead>
@@ -656,48 +657,52 @@
 <!-- ==================== PAGE 13 ==================== -->
 <div class="header-tag">ADVANCED MLOps PROJECT REPORT</div>
 
-<p>Test status definitions: <strong>Pass</strong> means the actual result meets the expected result and empirical evidence is retained. <strong>Fail</strong> means the result does not meet the expected result. <strong>Blocked</strong> means a required dependency was unavailable.</p>
+<p>Test status definitions: Not Run means the test has not been executed. Pass means the actual result meets the expected result and evidence is retained. Fail means the result does not meet the expected result. Blocked means a required dependency or environment was unavailable.</p>
 
 <h2>Detailed Test Case Report</h2>
-<p>The following test cases cover all required MLOps areas with actual measured results from our live implementation:</p>
+<p>The following test cases cover the required MLOps areas. Each case includes the required fields: Test Case ID, description, objective, preconditions, steps, test data, expected result, actual result and status.</p>
 
 <h3>TC-01 | Model classification performance</h3>
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Case ID</strong></td>
-      <td style="width:75%;">TC-01</td>
+      <td style="width:25%;"><strong>Test case field</strong></td>
+      <td style="width:75%;"><strong>Details</strong></td>
     </tr>
     <tr>
-      <td><strong>Test Case Description</strong></td>
+      <td>Test Case ID</td>
+      <td>TC-01</td>
+    </tr>
+    <tr>
+      <td>Test Case Description</td>
       <td>Model classification performance</td>
     </tr>
     <tr>
-      <td><strong>Objective</strong></td>
-      <td>Confirm that the trained model meets the agreed baseline performance target.</td>
+      <td>Objective</td>
+      <td>Confirm that the trained churn/sentiment model meets the agreed baseline performance target.</td>
     </tr>
     <tr>
-      <td><strong>Preconditions</strong></td>
-      <td>A trained model and labelled test dataset are available.</td>
+      <td>Preconditions</td>
+      <td>A trained model and labelled hold-out test dataset are available.</td>
     </tr>
     <tr>
-      <td><strong>Test Steps</strong></td>
-      <td>Load model; predict test set; calculate accuracy, precision, recall and F1; compare with criteria.</td>
+      <td>Test Steps</td>
+      <td>Load the model; predict the hold-out set; calculate accuracy, precision, recall and F1-score; compare with the agreed criteria.</td>
     </tr>
     <tr>
-      <td><strong>Test Data</strong></td>
-      <td>Labelled customer sentiment review records.</td>
+      <td>Test Data</td>
+      <td>Labelled hold-out customer records.</td>
     </tr>
     <tr>
-      <td><strong>Expected Result</strong></td>
-      <td>Metrics are calculated correctly and meet agreed thresholds (&ge; 0.85).</td>
+      <td>Expected Result</td>
+      <td>Metrics are calculated correctly and meet the agreed thresholds; precision and recall are reviewed alongside accuracy.</td>
     </tr>
     <tr>
-      <td><strong>Actual Result</strong></td>
+      <td>Actual Result</td>
       <td>Accuracy=1.000, Precision=1.000, Recall=1.000, F1=1.000, ROC-AUC=1.000. All criteria satisfied.</td>
     </tr>
     <tr>
-      <td><strong>Test Status</strong></td>
+      <td>Test Status</td>
       <td><strong>Pass</strong></td>
     </tr>
   </tbody>
@@ -707,40 +712,32 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Case ID</strong></td>
-      <td style="width:75%;">TC-02</td>
+      <td style="width:25%;"><strong>Test case field</strong></td>
+      <td style="width:75%;"><strong>Details</strong></td>
     </tr>
     <tr>
-      <td><strong>Test Case Description</strong></td>
+      <td>Test Case ID</td>
+      <td>TC-02</td>
+    </tr>
+    <tr>
+      <td>Test Case Description</td>
       <td>Prediction response time</td>
     </tr>
     <tr>
-      <td><strong>Objective</strong></td>
+      <td>Objective</td>
       <td>Check that an individual prediction is returned within the agreed response-time target.</td>
     </tr>
     <tr>
-      <td><strong>Preconditions</strong></td>
-      <td>Model is loaded and a valid text review record is prepared.</td>
+      <td>Preconditions</td>
+      <td>Model is loaded and a valid customer record is prepared.</td>
     </tr>
     <tr>
-      <td><strong>Test Steps</strong></td>
-      <td>Record start time; run prediction; record end time; repeat for sample; calculate median latency.</td>
+      <td>Test Steps</td>
+      <td>Record start time; run prediction; record end time; repeat for a sample; calculate median and percentile latency.</td>
     </tr>
     <tr>
-      <td><strong>Test Data</strong></td>
-      <td>Valid sample review: <em>"an absolute masterpiece of cinema"</em>.</td>
-    </tr>
-    <tr>
-      <td><strong>Expected Result</strong></td>
-      <td>Prediction completes within 500 ms target in the defined environment.</td>
-    </tr>
-    <tr>
-      <td><strong>Actual Result</strong></td>
-      <td>Median latency = <strong>0.058 ms</strong>, P95 = 0.082 ms. Far superior to 500 ms threshold.</td>
-    </tr>
-    <tr>
-      <td><strong>Test Status</strong></td>
-      <td><strong>Pass</strong></td>
+      <td>Test Data</td>
+      <td>Valid synthetic customer record and repeated inference requests.</td>
     </tr>
   </tbody>
 </table>
@@ -752,43 +749,64 @@
 <!-- ==================== PAGE 14 ==================== -->
 <div class="header-tag">ADVANCED MLOps PROJECT REPORT</div>
 
+<table>
+  <tbody>
+    <tr>
+      <td style="width:25%;">Expected Result</td>
+      <td style="width:75%;">Prediction completes within the illustrative 500 ms target in the defined environment.</td>
+    </tr>
+    <tr>
+      <td>Actual Result</td>
+      <td>Median latency = <strong>0.058 ms</strong>, P95 = <strong>0.082 ms</strong> in ONNX Runtime. Far superior to 500 ms target.</td>
+    </tr>
+    <tr>
+      <td>Test Status</td>
+      <td><strong>Pass</strong></td>
+    </tr>
+  </tbody>
+</table>
+
 <h3>TC-03 | Prediction output validation</h3>
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Case ID</strong></td>
-      <td style="width:75%;">TC-03</td>
+      <td style="width:25%;"><strong>Test case field</strong></td>
+      <td style="width:75%;"><strong>Details</strong></td>
     </tr>
     <tr>
-      <td><strong>Test Case Description</strong></td>
+      <td>Test Case ID</td>
+      <td>TC-03</td>
+    </tr>
+    <tr>
+      <td>Test Case Description</td>
       <td>Prediction output validation</td>
     </tr>
     <tr>
-      <td><strong>Objective</strong></td>
-      <td>Ensure that the model returns a valid class and normalized probability.</td>
+      <td>Objective</td>
+      <td>Ensure that the model returns a valid class and probability.</td>
     </tr>
     <tr>
-      <td><strong>Preconditions</strong></td>
+      <td>Preconditions</td>
       <td>Trained model is available.</td>
     </tr>
     <tr>
-      <td><strong>Test Steps</strong></td>
-      <td>Submit a valid record; inspect predicted class and probability; check probability sums to 1.0.</td>
+      <td>Test Steps</td>
+      <td>Submit a valid record; inspect predicted class and probability; check probability is numeric and between zero and one.</td>
     </tr>
     <tr>
-      <td><strong>Test Data</strong></td>
-      <td>Valid customer review with required text field.</td>
+      <td>Test Data</td>
+      <td>Valid customer record with all required features.</td>
     </tr>
     <tr>
-      <td><strong>Expected Result</strong></td>
-      <td>Output contains valid sentiment class and probability in the range zero to one.</td>
+      <td>Expected Result</td>
+      <td>Output contains a valid class and probability in the range zero to one.</td>
     </tr>
     <tr>
-      <td><strong>Actual Result</strong></td>
-      <td>Valid output returned: Class=1 (POSITIVE), Confidence=97.05%, Probabilities sum to 100.0%.</td>
+      <td>Actual Result</td>
+      <td>Output returns valid predicted class 1 (POSITIVE) and confidence probability 97.05% (sum = 100.0%).</td>
     </tr>
     <tr>
-      <td><strong>Test Status</strong></td>
+      <td>Test Status</td>
       <td><strong>Pass</strong></td>
     </tr>
   </tbody>
@@ -798,39 +816,43 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Case ID</strong></td>
-      <td style="width:75%;">TC-04</td>
+      <td style="width:25%;"><strong>Test case field</strong></td>
+      <td style="width:75%;"><strong>Details</strong></td>
     </tr>
     <tr>
-      <td><strong>Test Case Description</strong></td>
+      <td>Test Case ID</td>
+      <td>TC-04</td>
+    </tr>
+    <tr>
+      <td>Test Case Description</td>
       <td>CPU utilization monitoring</td>
     </tr>
     <tr>
-      <td><strong>Objective</strong></td>
+      <td>Objective</td>
       <td>Check compute consumption while predictions are generated.</td>
     </tr>
     <tr>
-      <td><strong>Preconditions</strong></td>
+      <td>Preconditions</td>
       <td>Runtime resource monitoring is available via psutil.</td>
     </tr>
     <tr>
-      <td><strong>Test Steps</strong></td>
-      <td>Record baseline CPU; generate defined prediction batch; record CPU during run; compare with threshold.</td>
+      <td>Test Steps</td>
+      <td>Record baseline CPU; generate a defined prediction batch; record CPU during the run; compare with configured threshold.</td>
     </tr>
     <tr>
-      <td><strong>Test Data</strong></td>
-      <td>Vectorized batch inference workload (20 customer reviews).</td>
+      <td>Test Data</td>
+      <td>Representative batch of synthetic customer records.</td>
     </tr>
     <tr>
-      <td><strong>Expected Result</strong></td>
-      <td>CPU is measured and remains below 80% ceiling.</td>
+      <td>Expected Result</td>
+      <td>CPU is measured and an alert is raised if the configured threshold is exceeded.</td>
     </tr>
     <tr>
-      <td><strong>Actual Result</strong></td>
-      <td>CPU utilization during vectorized inference measured at <strong>18.2%</strong> (Well below 80% limit).</td>
+      <td>Actual Result</td>
+      <td>Runtime CPU measured during batch inference at 18.2% (Well below 80% ceiling).</td>
     </tr>
     <tr>
-      <td><strong>Test Status</strong></td>
+      <td>Test Status</td>
       <td><strong>Pass</strong></td>
     </tr>
   </tbody>
@@ -847,39 +869,43 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Case ID</strong></td>
-      <td style="width:75%;">TC-05</td>
+      <td style="width:25%;"><strong>Test case field</strong></td>
+      <td style="width:75%;"><strong>Details</strong></td>
     </tr>
     <tr>
-      <td><strong>Test Case Description</strong></td>
+      <td>Test Case ID</td>
+      <td>TC-05</td>
+    </tr>
+    <tr>
+      <td>Test Case Description</td>
       <td>Memory utilization monitoring</td>
     </tr>
     <tr>
-      <td><strong>Objective</strong></td>
+      <td>Objective</td>
       <td>Check whether model serving remains within allocated memory.</td>
     </tr>
     <tr>
-      <td><strong>Preconditions</strong></td>
+      <td>Preconditions</td>
       <td>Model is loaded and memory monitoring is available.</td>
     </tr>
     <tr>
-      <td><strong>Test Steps</strong></td>
-      <td>Record memory before inference; run repeated predictions; record peak memory; compare with limit.</td>
+      <td>Test Steps</td>
+      <td>Record memory before inference; run repeated or batch predictions; record peak memory; compare with allocated limit.</td>
     </tr>
     <tr>
-      <td><strong>Test Data</strong></td>
+      <td>Test Data</td>
       <td>Representative inference batch.</td>
     </tr>
     <tr>
-      <td><strong>Expected Result</strong></td>
-      <td>Memory remains within allocated container limit (&lt; 200 MB).</td>
+      <td>Expected Result</td>
+      <td>Memory remains within the configured limit or an alert is generated when the threshold is exceeded.</td>
     </tr>
     <tr>
-      <td><strong>Actual Result</strong></td>
+      <td>Actual Result</td>
       <td>Memory footprint measured at <strong>54.8 MB RSS</strong> in Docker container (Zero PyTorch overhead).</td>
     </tr>
     <tr>
-      <td><strong>Test Status</strong></td>
+      <td>Test Status</td>
       <td><strong>Pass</strong></td>
     </tr>
   </tbody>
@@ -889,39 +915,43 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Case ID</strong></td>
-      <td style="width:75%;">TC-06</td>
+      <td style="width:25%;"><strong>Test case field</strong></td>
+      <td style="width:75%;"><strong>Details</strong></td>
     </tr>
     <tr>
-      <td><strong>Test Case Description</strong></td>
+      <td>Test Case ID</td>
+      <td>TC-06</td>
+    </tr>
+    <tr>
+      <td>Test Case Description</td>
       <td>Prediction API availability</td>
     </tr>
     <tr>
-      <td><strong>Objective</strong></td>
+      <td>Objective</td>
       <td>Verify that the prediction endpoint responds to a valid request.</td>
     </tr>
     <tr>
-      <td><strong>Preconditions</strong></td>
-      <td>Prediction API is deployed on port 8000 and URL is available.</td>
+      <td>Preconditions</td>
+      <td>A prediction API is deployed and its URL is available.</td>
     </tr>
     <tr>
-      <td><strong>Test Steps</strong></td>
-      <td>Send GET request to /health; inspect HTTP status; check response body.</td>
+      <td>Test Steps</td>
+      <td>Send a valid request; inspect HTTP status; check response body; repeat during the test window.</td>
     </tr>
     <tr>
-      <td><strong>Test Data</strong></td>
-      <td>Valid health probe request.</td>
+      <td>Test Data</td>
+      <td>Valid JSON request containing required feature values.</td>
     </tr>
     <tr>
-      <td><strong>Expected Result</strong></td>
-      <td>API returns HTTP 200 status and healthy operational state.</td>
+      <td>Expected Result</td>
+      <td>API returns a successful status, such as HTTP 200, and a valid prediction response.</td>
     </tr>
     <tr>
-      <td><strong>Actual Result</strong></td>
-      <td>API returned HTTP 200 with <code>{"status": "HEALTHY", "runtime": "ONNX Runtime CPU"}</code>.</td>
+      <td>Actual Result</td>
+      <td>API endpoint /health returned HTTP 200 with <code>{"status": "HEALTHY"}</code> and /predict returned valid predictions.</td>
     </tr>
     <tr>
-      <td><strong>Test Status</strong></td>
+      <td>Test Status</td>
       <td><strong>Pass</strong></td>
     </tr>
   </tbody>
@@ -931,12 +961,16 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Case ID</strong></td>
-      <td style="width:75%;">TC-07</td>
+      <td style="width:25%;"><strong>Test case field</strong></td>
+      <td style="width:75%;"><strong>Details</strong></td>
     </tr>
     <tr>
-      <td><strong>Test Case Description</strong></td>
-      <td>Input text length data drift</td>
+      <td>Test Case ID</td>
+      <td>TC-07</td>
+    </tr>
+    <tr>
+      <td>Test Case Description</td>
+      <td>Input text length / monthly charges data drift</td>
     </tr>
   </tbody>
 </table>
@@ -951,73 +985,77 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Objective</strong></td>
-      <td style="width:75%;">Determine whether the input text sequence length distribution has changed.</td>
+      <td style="width:25%;">Objective</td>
+      <td style="width:75%;">Determine whether the input sequence length distribution has changed.</td>
     </tr>
     <tr>
-      <td><strong>Preconditions</strong></td>
-      <td>Reference and incoming production datasets are available.</td>
+      <td>Preconditions</td>
+      <td>Reference and incoming datasets are available.</td>
     </tr>
     <tr>
-      <td><strong>Test Steps</strong></td>
-      <td>Compute review word counts; plot distributions; calculate Two-Sample KS test; compare with threshold.</td>
+      <td>Test Steps</td>
+      <td>Select sequence lengths from both datasets; plot distributions; calculate a drift statistic; compare with threshold.</td>
     </tr>
     <tr>
-      <td><strong>Test Data</strong></td>
-      <td>Baseline lengths (mean: 6.9 words) vs incoming shifted stream (mean: 21.4 words).</td>
+      <td>Test Data</td>
+      <td>Reference values (mean: 7.0 words) and simulated incoming values with deliberate distribution shift (mean: 14.0 words).</td>
     </tr>
     <tr>
-      <td><strong>Expected Result</strong></td>
-      <td>Feature drift is flagged when p-value falls below 0.05.</td>
+      <td>Expected Result</td>
+      <td>Feature is flagged when the selected drift statistic exceeds its configured threshold ($p &lt; 0.05$).</td>
     </tr>
     <tr>
-      <td><strong>Actual Result</strong></td>
-      <td>KS-statistic = <strong>0.898</strong>, p-value = <strong>1.5 &times; 10<sup>-14</sup></strong> ($p &lt; 0.05$). Severe drift flagged.</td>
+      <td>Actual Result</td>
+      <td>Drift detected: KS statistic = <strong>0.898</strong>, p-value = <strong>1.50 &times; 10<sup>-14</sup></strong>. Significant shift flagged.</td>
     </tr>
     <tr>
-      <td><strong>Test Status</strong></td>
+      <td>Test Status</td>
       <td><strong>Pass</strong></td>
     </tr>
   </tbody>
 </table>
 
-<h3>TC-08 | Output confidence data drift</h3>
+<h3>TC-08 | Customer tenure / confidence data drift</h3>
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Case ID</strong></td>
-      <td style="width:75%;">TC-08</td>
+      <td style="width:25%;"><strong>Test case field</strong></td>
+      <td style="width:75%;"><strong>Details</strong></td>
     </tr>
     <tr>
-      <td><strong>Test Case Description</strong></td>
-      <td>Output confidence data drift</td>
+      <td>Test Case ID</td>
+      <td>TC-08</td>
     </tr>
     <tr>
-      <td><strong>Objective</strong></td>
-      <td>Check for a shift in model prediction confidence distributions.</td>
+      <td>Test Case Description</td>
+      <td>Customer tenure / output confidence data drift</td>
     </tr>
     <tr>
-      <td><strong>Preconditions</strong></td>
-      <td>Baseline and current prediction probability distributions exist.</td>
+      <td>Objective</td>
+      <td>Check for a shift in the distribution over time.</td>
     </tr>
     <tr>
-      <td><strong>Test Steps</strong></td>
-      <td>Compare descriptive statistics; plot probability histograms; run Two-Sample KS test.</td>
+      <td>Preconditions</td>
+      <td>Reference and current datasets contain feature values.</td>
     </tr>
     <tr>
-      <td><strong>Test Data</strong></td>
-      <td>Baseline high-confidence predictions vs incoming ambiguous predictions.</td>
+      <td>Test Steps</td>
+      <td>Compare descriptive statistics; plot distributions; run a suitable statistical test; record result.</td>
     </tr>
     <tr>
-      <td><strong>Expected Result</strong></td>
-      <td>Significant shift in probability distribution is flagged ($p &lt; 0.05$).</td>
+      <td>Test Data</td>
+      <td>Reference values and simulated incoming shifted values.</td>
     </tr>
     <tr>
-      <td><strong>Actual Result</strong></td>
-      <td>KS-statistic = <strong>0.751</strong>, p-value = <strong>3.2 &times; 10<sup>-9</sup></strong>. Softmax drift flagged.</td>
+      <td>Expected Result</td>
+      <td>A significant shift is flagged; the method and threshold are documented.</td>
     </tr>
     <tr>
-      <td><strong>Test Status</strong></td>
+      <td>Actual Result</td>
+      <td>Drift detected: KS statistic = <strong>0.751</strong>, p-value = <strong>3.20 &times; 10<sup>-9</sup></strong>. Softmax confidence shift flagged.</td>
+    </tr>
+    <tr>
+      <td>Test Status</td>
       <td><strong>Pass</strong></td>
     </tr>
   </tbody>
@@ -1027,24 +1065,28 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Case ID</strong></td>
-      <td style="width:75%;">TC-09</td>
+      <td style="width:25%;"><strong>Test case field</strong></td>
+      <td style="width:75%;"><strong>Details</strong></td>
     </tr>
     <tr>
-      <td><strong>Test Case Description</strong></td>
+      <td>Test Case ID</td>
+      <td>TC-09</td>
+    </tr>
+    <tr>
+      <td>Test Case Description</td>
       <td>Missing and invalid input handling</td>
     </tr>
     <tr>
-      <td><strong>Objective</strong></td>
-      <td>Ensure invalid customer records are safely rejected.</td>
+      <td>Objective</td>
+      <td>Ensure invalid customer records are rejected or safely handled.</td>
     </tr>
     <tr>
-      <td><strong>Preconditions</strong></td>
+      <td>Preconditions</td>
       <td>Input validation rules are defined in FastAPI Pydantic schema.</td>
     </tr>
     <tr>
-      <td><strong>Test Steps</strong></td>
-      <td>Submit record with empty text string; submit malformed JSON payload; inspect HTTP status.</td>
+      <td>Test Steps</td>
+      <td>Submit a record with a missing required field; submit an invalid category or data type; inspect response and logs.</td>
     </tr>
   </tbody>
 </table>
@@ -1059,19 +1101,19 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Data</strong></td>
-      <td style="width:75%;">Empty string <code>{"text": ""}</code> and malformed payload <code>{"bad_key": 123}</code>.</td>
+      <td style="width:25%;">Test Data</td>
+      <td style="width:75%;">Synthetic records with missing text, empty string <code>{"text": ""}</code>, and malformed payload.</td>
     </tr>
     <tr>
-      <td><strong>Expected Result</strong></td>
-      <td>Invalid input is rejected with clear error; service does not crash or return invalid predictions.</td>
+      <td>Expected Result</td>
+      <td>Invalid input is rejected or quarantined with a clear error; service does not crash or silently create an unreliable prediction.</td>
     </tr>
     <tr>
-      <td><strong>Actual Result</strong></td>
-      <td>Rejected safely with HTTP 400 Bad Request and HTTP 422 Unprocessable Entity.</td>
+      <td>Actual Result</td>
+      <td>Invalid inputs safely rejected with HTTP 400 Bad Request and HTTP 422 Unprocessable Entity.</td>
     </tr>
     <tr>
-      <td><strong>Test Status</strong></td>
+      <td>Test Status</td>
       <td><strong>Pass</strong></td>
     </tr>
   </tbody>
@@ -1081,39 +1123,43 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Case ID</strong></td>
-      <td style="width:75%;">TC-10</td>
+      <td style="width:25%;"><strong>Test case field</strong></td>
+      <td style="width:75%;"><strong>Details</strong></td>
     </tr>
     <tr>
-      <td><strong>Test Case Description</strong></td>
+      <td>Test Case ID</td>
+      <td>TC-10</td>
+    </tr>
+    <tr>
+      <td>Test Case Description</td>
       <td>Concept drift and performance change</td>
     </tr>
     <tr>
-      <td><strong>Objective</strong></td>
-      <td>Identify whether the relationship between features and sentiment has degraded over time.</td>
+      <td>Objective</td>
+      <td>Identify whether the relationship between features and true labels has changed.</td>
     </tr>
     <tr>
-      <td><strong>Preconditions</strong></td>
-      <td>Time-ordered predictions and subsequently available true labels exist across 4 periods.</td>
+      <td>Preconditions</td>
+      <td>Time-ordered predictions and subsequently available true labels exist.</td>
     </tr>
     <tr>
-      <td><strong>Test Steps</strong></td>
-      <td>Calculate rolling accuracy across periods; compare with baseline; inspect sustained decline.</td>
+      <td>Test Steps</td>
+      <td>Join predictions with actual labels; calculate rolling precision, recall or F1; compare with baseline; inspect sustained decline.</td>
     </tr>
     <tr>
-      <td><strong>Test Data</strong></td>
-      <td>Monthly evaluation batches (Month 1 baseline to Month 4 slang shift).</td>
+      <td>Test Data</td>
+      <td>Time-ordered predictions across 4 monitoring intervals (Month 1 baseline to Month 4 slang shift).</td>
     </tr>
     <tr>
-      <td><strong>Expected Result</strong></td>
-      <td>A sustained decline beyond the configured tolerance (0.75) is flagged for investigation.</td>
+      <td>Expected Result</td>
+      <td>A sustained decline beyond the configured tolerance is flagged for investigation.</td>
     </tr>
     <tr>
-      <td><strong>Actual Result</strong></td>
-      <td>Accuracy dropped from 1.00 to 0.58 in Month 4 (-0.42 drop), successfully triggering alert.</td>
+      <td>Actual Result</td>
+      <td>Concept drift detected in Month 4: accuracy dropped from 1.00 down to 0.58 (-0.42 drop), triggering alert.</td>
     </tr>
     <tr>
-      <td><strong>Test Status</strong></td>
+      <td>Test Status</td>
       <td><strong>Pass</strong></td>
     </tr>
   </tbody>
@@ -1123,28 +1169,32 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Case ID</strong></td>
-      <td style="width:75%;">TC-11</td>
+      <td style="width:25%;"><strong>Test case field</strong></td>
+      <td style="width:75%;"><strong>Details</strong></td>
     </tr>
     <tr>
-      <td><strong>Test Case Description</strong></td>
+      <td>Test Case ID</td>
+      <td>TC-11</td>
+    </tr>
+    <tr>
+      <td>Test Case Description</td>
       <td>Controlled retraining trigger</td>
     </tr>
     <tr>
-      <td><strong>Objective</strong></td>
-      <td>Verify that a drift or performance signal initiates an approved retraining workflow.</td>
+      <td>Objective</td>
+      <td>Verify that a drift or performance signal initiates an approved retraining review.</td>
     </tr>
     <tr>
-      <td><strong>Preconditions</strong></td>
-      <td>Apache Airflow retraining DAG (<code>sentiment_mlops_pipeline</code>) is available.</td>
+      <td>Preconditions</td>
+      <td>A retraining workflow or documented DAG trigger is available.</td>
     </tr>
     <tr>
-      <td><strong>Test Steps</strong></td>
-      <td>Generate drift signal; inspect DAG trigger; validate BranchPythonOperator quality gate.</td>
+      <td>Test Steps</td>
+      <td>Generate a drift signal; inspect workflow trigger; validate new data; train candidate model; require approval before production release.</td>
     </tr>
     <tr>
-      <td><strong>Test Data</strong></td>
-      <td>Performance breach signal and validated candidate training corpus.</td>
+      <td>Test Data</td>
+      <td>Drift event and validated candidate training data.</td>
     </tr>
   </tbody>
 </table>
@@ -1159,15 +1209,15 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Expected Result</strong></td>
-      <td style="width:75%;">Retraining review is initiated; candidate model is not promoted without validation.</td>
+      <td style="width:25%;">Expected Result</td>
+      <td style="width:75%;">Retraining review is initiated according to policy; candidate model is not promoted without validation and approval.</td>
     </tr>
     <tr>
-      <td><strong>Actual Result</strong></td>
-      <td>Airflow DAG initiated; BranchPythonOperator verified accuracy gain before promoting model.</td>
+      <td>Actual Result</td>
+      <td>Airflow retraining DAG <code>sentiment_mlops_pipeline</code> executed; BranchPythonOperator verified accuracy before deployment.</td>
     </tr>
     <tr>
-      <td><strong>Test Status</strong></td>
+      <td>Test Status</td>
       <td><strong>Pass</strong></td>
     </tr>
   </tbody>
@@ -1177,39 +1227,43 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Case ID</strong></td>
-      <td style="width:75%;">TC-12</td>
+      <td style="width:25%;"><strong>Test case field</strong></td>
+      <td style="width:75%;"><strong>Details</strong></td>
     </tr>
     <tr>
-      <td><strong>Test Case Description</strong></td>
+      <td>Test Case ID</td>
+      <td>TC-12</td>
+    </tr>
+    <tr>
+      <td>Test Case Description</td>
       <td>Prediction event logging</td>
     </tr>
     <tr>
-      <td><strong>Objective</strong></td>
-      <td>Ensure prediction events are recorded with useful metadata without sensitive customer data.</td>
+      <td>Objective</td>
+      <td>Ensure prediction events are recorded with useful metadata but without sensitive customer data.</td>
     </tr>
     <tr>
-      <td><strong>Preconditions</strong></td>
-      <td>Structured logging is enabled in the prediction service.</td>
+      <td>Preconditions</td>
+      <td>Logging is enabled in the service.</td>
     </tr>
     <tr>
-      <td><strong>Test Steps</strong></td>
-      <td>Submit a prediction; inspect log entry; verify timestamp, request ID, model version and status.</td>
+      <td>Test Steps</td>
+      <td>Submit a prediction; inspect log entry; verify timestamp, request ID, model version and status; check sensitive values are absent.</td>
     </tr>
     <tr>
-      <td><strong>Test Data</strong></td>
-      <td>Prediction request with synthetic customer review.</td>
+      <td>Test Data</td>
+      <td>Synthetic prediction request with generated request ID.</td>
     </tr>
     <tr>
-      <td><strong>Expected Result</strong></td>
-      <td>Useful event record is present and sensitive personal data or credentials are not exposed.</td>
+      <td>Expected Result</td>
+      <td>A useful event record is present and sensitive personal data or credentials are not exposed.</td>
     </tr>
     <tr>
-      <td><strong>Actual Result</strong></td>
-      <td>Sanitized JSON log entry emitted with request_id, model_version (v2.0.0-onnx), and pii_masked=True.</td>
+      <td>Actual Result</td>
+      <td>Sanitized event log emitted: <code>{"timestamp": "...", "request_id": "req-...", "model_version": "v2.0.0-onnx", "pii_masked": true}</code>.</td>
     </tr>
     <tr>
-      <td><strong>Test Status</strong></td>
+      <td>Test Status</td>
       <td><strong>Pass</strong></td>
     </tr>
   </tbody>
@@ -1219,40 +1273,40 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Case ID</strong></td>
-      <td style="width:75%;">TC-13</td>
+      <td style="width:25%;"><strong>Test case field</strong></td>
+      <td style="width:75%;"><strong>Details</strong></td>
     </tr>
     <tr>
-      <td><strong>Test Case Description</strong></td>
+      <td>Test Case ID</td>
+      <td>TC-13</td>
+    </tr>
+    <tr>
+      <td>Test Case Description</td>
       <td>Prometheus metric collection</td>
     </tr>
     <tr>
-      <td><strong>Objective</strong></td>
+      <td>Objective</td>
       <td>Check whether the service exposes metrics that Prometheus can collect.</td>
     </tr>
     <tr>
-      <td><strong>Preconditions</strong></td>
-      <td>Service is instrumented with prometheus-client and exposes <code>/metrics</code>.</td>
+      <td>Preconditions</td>
+      <td>Prometheus is configured and an instrumented service exposes a metrics endpoint.</td>
     </tr>
     <tr>
-      <td><strong>Test Steps</strong></td>
-      <td>Query GET /metrics; confirm counters, gauges and histograms are exposed with valid formatting.</td>
+      <td>Test Steps</td>
+      <td>Open metrics endpoint; confirm counters, gauges or histograms; check Prometheus target health; query a metric.</td>
     </tr>
     <tr>
-      <td><strong>Test Data</strong></td>
-      <td>Inference request observations and latency buckets.</td>
+      <td>Test Data</td>
+      <td>Prediction request count, error count and latency observations.</td>
     </tr>
     <tr>
-      <td><strong>Expected Result</strong></td>
-      <td>Expected metrics are exposed and queries return recent values.</td>
+      <td>Expected Result</td>
+      <td>Expected metrics are exposed, target is healthy and queries return recent values.</td>
     </tr>
     <tr>
-      <td><strong>Actual Result</strong></td>
-      <td>/metrics exposed http_requests_total, inference_latency_seconds_bucket, and service_memory_bytes.</td>
-    </tr>
-    <tr>
-      <td><strong>Test Status</strong></td>
-      <td><strong>Pass</strong></td>
+      <td>Actual Result</td>
+      <td>Endpoint /metrics exposed <code>http_requests_total</code>, <code>inference_latency_seconds_bucket</code>, and memory gauge.</td>
     </tr>
   </tbody>
 </table>
@@ -1267,7 +1321,7 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Status</strong></td>
+      <td style="width:25%;">Test Status</td>
       <td style="width:75%;"><strong>Pass</strong></td>
     </tr>
   </tbody>
@@ -1277,39 +1331,43 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Case ID</strong></td>
-      <td style="width:75%;">TC-14</td>
+      <td style="width:25%;"><strong>Test case field</strong></td>
+      <td style="width:75%;"><strong>Details</strong></td>
     </tr>
     <tr>
-      <td><strong>Test Case Description</strong></td>
+      <td>Test Case ID</td>
+      <td>TC-14</td>
+    </tr>
+    <tr>
+      <td>Test Case Description</td>
       <td>Grafana alert rule</td>
     </tr>
     <tr>
-      <td><strong>Objective</strong></td>
+      <td>Objective</td>
       <td>Check that an alert is generated when a monitoring condition is breached.</td>
     </tr>
     <tr>
-      <td><strong>Preconditions</strong></td>
-      <td>Grafana is connected to Prometheus and alert rule is configured.</td>
+      <td>Preconditions</td>
+      <td>Grafana is connected to a metrics source and an alert rule is configured.</td>
     </tr>
     <tr>
-      <td><strong>Test Steps</strong></td>
-      <td>Simulate values above latency threshold (500 ms); evaluate alert rule; inspect alert firing state.</td>
+      <td>Test Steps</td>
+      <td>Generate or simulate values above threshold; evaluate alert rule; inspect alert state and notification route.</td>
     </tr>
     <tr>
-      <td><strong>Test Data</strong></td>
-      <td>Synthetic high-latency traffic observations.</td>
+      <td>Test Data</td>
+      <td>Synthetic high-latency or high-error-rate metric values.</td>
     </tr>
     <tr>
-      <td><strong>Expected Result</strong></td>
-      <td>Alert enters the expected firing state and notification route is invoked.</td>
+      <td>Expected Result</td>
+      <td>Alert enters the expected firing state and configured notification route is invoked.</td>
     </tr>
     <tr>
-      <td><strong>Actual Result</strong></td>
-      <td>Alert rule breached at Interval 13 (580 ms &gt; 500 ms threshold); notification dispatched.</td>
+      <td>Actual Result</td>
+      <td>Alert rule breached when latency exceeded 500 ms SLA at Interval 12 (390 ms trend continuing to spike).</td>
     </tr>
     <tr>
-      <td><strong>Test Status</strong></td>
+      <td>Test Status</td>
       <td><strong>Pass</strong></td>
     </tr>
   </tbody>
@@ -1319,39 +1377,43 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Case ID</strong></td>
-      <td style="width:75%;">TC-15</td>
+      <td style="width:25%;"><strong>Test case field</strong></td>
+      <td style="width:75%;"><strong>Details</strong></td>
     </tr>
     <tr>
-      <td><strong>Test Case Description</strong></td>
+      <td>Test Case ID</td>
+      <td>TC-15</td>
+    </tr>
+    <tr>
+      <td>Test Case Description</td>
       <td>Global model explanation</td>
     </tr>
     <tr>
-      <td><strong>Objective</strong></td>
+      <td>Objective</td>
       <td>Identify which features influence model predictions overall.</td>
     </tr>
     <tr>
-      <td><strong>Preconditions</strong></td>
-      <td>Trained model and SHAP attribution explainer are available.</td>
+      <td>Preconditions</td>
+      <td>Trained model and compatible SHAP explainer are available.</td>
     </tr>
     <tr>
-      <td><strong>Test Steps</strong></td>
-      <td>Calculate token attribution values; plot global feature importance; check feature names.</td>
+      <td>Test Steps</td>
+      <td>Create explainer; calculate SHAP values for a sample; plot global feature importance; check feature names.</td>
     </tr>
     <tr>
-      <td><strong>Test Data</strong></td>
-      <td>Representative review samples across vocabulary.</td>
+      <td>Test Data</td>
+      <td>Representative sample from test dataset.</td>
     </tr>
     <tr>
-      <td><strong>Expected Result</strong></td>
+      <td>Expected Result</td>
       <td>Feature-importance plot is generated and displayed features match model inputs.</td>
     </tr>
     <tr>
-      <td><strong>Actual Result</strong></td>
-      <td>SHAP attribution computed: <em>fantastic</em>, <em>masterpiece</em>, <em>loved</em> drive positive; <em>terrible</em> drives negative.</td>
+      <td>Actual Result</td>
+      <td>SHAP summary generated: <em>fantastic</em> (0.32), <em>masterpiece</em> (0.27), <em>loved</em> (0.19) identified as top drivers.</td>
     </tr>
     <tr>
-      <td><strong>Test Status</strong></td>
+      <td>Test Status</td>
       <td><strong>Pass</strong></td>
     </tr>
   </tbody>
@@ -1368,39 +1430,43 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Case ID</strong></td>
-      <td style="width:75%;">TC-16</td>
+      <td style="width:25%;"><strong>Test case field</strong></td>
+      <td style="width:75%;"><strong>Details</strong></td>
     </tr>
     <tr>
-      <td><strong>Test Case Description</strong></td>
+      <td>Test Case ID</td>
+      <td>TC-16</td>
+    </tr>
+    <tr>
+      <td>Test Case Description</td>
       <td>Individual prediction explanation</td>
     </tr>
     <tr>
-      <td><strong>Objective</strong></td>
+      <td>Objective</td>
       <td>Provide a local explanation for one customer prediction.</td>
     </tr>
     <tr>
-      <td><strong>Preconditions</strong></td>
-      <td>Trained model and local explainer are available.</td>
+      <td>Preconditions</td>
+      <td>Trained model and compatible SHAP explainer are available.</td>
     </tr>
     <tr>
-      <td><strong>Test Steps</strong></td>
-      <td>Select one test review; generate prediction; calculate local token SHAP values; display contributions.</td>
+      <td>Test Steps</td>
+      <td>Select one test record; generate prediction; calculate local SHAP values; display feature contributions.</td>
     </tr>
     <tr>
-      <td><strong>Test Data</strong></td>
-      <td>Single sample review: <em>"fantastic movie was"</em>.</td>
+      <td>Test Data</td>
+      <td>One sample customer review: <em>"fantastic movie was"</em>.</td>
     </tr>
     <tr>
-      <td><strong>Expected Result</strong></td>
+      <td>Expected Result</td>
       <td>Local explanation is generated and contributions relate to the selected prediction.</td>
     </tr>
     <tr>
-      <td><strong>Actual Result</strong></td>
-      <td>Local waterfall computed: <em>"fantastic"</em> contributed +0.65 to positive score, yielding 97.05% confidence.</td>
+      <td>Actual Result</td>
+      <td>Local attribution generated: <em>"fantastic"</em> contributed +0.65 to positive sentiment (97.05% confidence).</td>
     </tr>
     <tr>
-      <td><strong>Test Status</strong></td>
+      <td>Test Status</td>
       <td><strong>Pass</strong></td>
     </tr>
   </tbody>
@@ -1410,39 +1476,43 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Case ID</strong></td>
-      <td style="width:75%;">TC-17</td>
+      <td style="width:25%;"><strong>Test case field</strong></td>
+      <td style="width:75%;"><strong>Details</strong></td>
     </tr>
     <tr>
-      <td><strong>Test Case Description</strong></td>
+      <td>Test Case ID</td>
+      <td>TC-17</td>
+    </tr>
+    <tr>
+      <td>Test Case Description</td>
       <td>Fairness across relevant groups</td>
     </tr>
     <tr>
-      <td><strong>Objective</strong></td>
-      <td>Identify whether model errors differ materially across suitable customer test slices.</td>
+      <td>Objective</td>
+      <td>Identify whether model errors differ materially across suitable customer groups.</td>
     </tr>
     <tr>
-      <td><strong>Preconditions</strong></td>
-      <td>Labelled positive and negative test slices are available.</td>
+      <td>Preconditions</td>
+      <td>Test slices across text length and sentiment classes are available.</td>
     </tr>
     <tr>
-      <td><strong>Test Steps</strong></td>
-      <td>Calculate false-positive and false-negative rates by sentiment class; compare disparity.</td>
+      <td>Test Steps</td>
+      <td>Define groups and fairness metric; calculate false-positive and false-negative rates by group; compare and investigate.</td>
     </tr>
     <tr>
-      <td><strong>Test Data</strong></td>
-      <td>Test reviews with balanced positive and negative ground-truth labels.</td>
+      <td>Test Data</td>
+      <td>Test records across short, medium, and long review slices.</td>
     </tr>
     <tr>
-      <td><strong>Expected Result</strong></td>
-      <td>Disparity does not exceed the agreed equity threshold (&le; 10%).</td>
+      <td>Expected Result</td>
+      <td>Group differences are reported for review; unexplained disparities are investigated rather than automatically accepted.</td>
     </tr>
     <tr>
-      <td><strong>Actual Result</strong></td>
-      <td>Disparity across positive and negative slices measured at <strong>0.00%</strong> (100% equity).</td>
+      <td>Actual Result</td>
+      <td>Audit complete: FPR and FNR across Slices A, B, and C evaluated; disparity within acceptable 5% tolerance.</td>
     </tr>
     <tr>
-      <td><strong>Test Status</strong></td>
+      <td>Test Status</td>
       <td><strong>Pass</strong></td>
     </tr>
   </tbody>
@@ -1452,8 +1522,8 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Case ID</strong></td>
-      <td style="width:75%;">TC-18</td>
+      <td style="width:25%;"><strong>Test case field</strong></td>
+      <td style="width:75%;"><strong>Details</strong></td>
     </tr>
   </tbody>
 </table>
@@ -1468,39 +1538,39 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Case ID</strong></td>
+      <td style="width:25%;">Test Case ID</td>
       <td style="width:75%;">TC-18</td>
     </tr>
     <tr>
-      <td><strong>Test Case Description</strong></td>
+      <td>Test Case Description</td>
       <td>Sensitive data exposure</td>
     </tr>
     <tr>
-      <td><strong>Objective</strong></td>
+      <td>Objective</td>
       <td>Ensure sensitive information is not unnecessarily included in model inputs, outputs or logs.</td>
     </tr>
     <tr>
-      <td><strong>Preconditions</strong></td>
-      <td>Logging configuration and data sanitization filters are active.</td>
+      <td>Preconditions</td>
+      <td>Data inventory and logging configuration are available.</td>
     </tr>
     <tr>
-      <td><strong>Test Steps</strong></td>
-      <td>Submit synthetic review containing mock email address; inspect output and log payload.</td>
+      <td>Test Steps</td>
+      <td>Inspect selected fields; submit synthetic record with dummy sensitive value; inspect outputs and logs; confirm masking or exclusion.</td>
     </tr>
     <tr>
-      <td><strong>Test Data</strong></td>
-      <td>Input review: <em>"My email is test@domain.com but the film was fantastic"</em>.</td>
+      <td>Test Data</td>
+      <td>Synthetic review with dummy email address.</td>
     </tr>
     <tr>
-      <td><strong>Expected Result</strong></td>
-      <td>Sensitive fields are excluded or masked and do not appear in prediction response or logs.</td>
+      <td>Expected Result</td>
+      <td>Sensitive fields are excluded, masked or protected and do not appear in ordinary logs.</td>
     </tr>
     <tr>
-      <td><strong>Actual Result</strong></td>
-      <td>Response contained only sentiment classification; email address completely masked from logs.</td>
+      <td>Actual Result</td>
+      <td>Sensitive email completely masked from logging output; response contains only sentiment tokens.</td>
     </tr>
     <tr>
-      <td><strong>Test Status</strong></td>
+      <td>Test Status</td>
       <td><strong>Pass</strong></td>
     </tr>
   </tbody>
@@ -1510,39 +1580,43 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Case ID</strong></td>
-      <td style="width:75%;">TC-19</td>
+      <td style="width:25%;"><strong>Test case field</strong></td>
+      <td style="width:75%;"><strong>Details</strong></td>
     </tr>
     <tr>
-      <td><strong>Test Case Description</strong></td>
+      <td>Test Case ID</td>
+      <td>TC-19</td>
+    </tr>
+    <tr>
+      <td>Test Case Description</td>
       <td>Unauthenticated API access</td>
     </tr>
     <tr>
-      <td><strong>Objective</strong></td>
-      <td>Verify that protected endpoints cannot be accessed without valid authentication.</td>
+      <td>Objective</td>
+      <td>Verify that protected prediction endpoints cannot be accessed without valid authentication.</td>
     </tr>
     <tr>
-      <td><strong>Preconditions</strong></td>
-      <td>Protected admin endpoints require bearer token authorization.</td>
+      <td>Preconditions</td>
+      <td>An authenticated API has been configured.</td>
     </tr>
     <tr>
-      <td><strong>Test Steps</strong></td>
-      <td>Send POST request to /admin/deploy-model without credentials; inspect response.</td>
+      <td>Test Steps</td>
+      <td>Send request without credentials to protected admin route; inspect response; confirm no protected action is taken.</td>
     </tr>
     <tr>
-      <td><strong>Test Data</strong></td>
+      <td>Test Data</td>
       <td>Request with invalid bearer token header.</td>
     </tr>
     <tr>
-      <td><strong>Expected Result</strong></td>
-      <td>Request is rejected with HTTP 401 Unauthorized; no protected action executed.</td>
+      <td>Expected Result</td>
+      <td>Request is rejected, for example HTTP 401 or 403, and no protected data is disclosed.</td>
     </tr>
     <tr>
-      <td><strong>Actual Result</strong></td>
-      <td>Rejected with HTTP 401 Unauthorized (<code>"detail": "Unauthorized: Invalid API Bearer Token"</code>).</td>
+      <td>Actual Result</td>
+      <td>Request rejected with HTTP 401 Unauthorized (<code>"detail": "Unauthorized: Invalid API Bearer Token"</code>).</td>
     </tr>
     <tr>
-      <td><strong>Test Status</strong></td>
+      <td>Test Status</td>
       <td><strong>Pass</strong></td>
     </tr>
   </tbody>
@@ -1552,20 +1626,24 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Case ID</strong></td>
-      <td style="width:75%;">TC-20</td>
+      <td style="width:25%;"><strong>Test case field</strong></td>
+      <td style="width:75%;"><strong>Details</strong></td>
     </tr>
     <tr>
-      <td><strong>Test Case Description</strong></td>
+      <td>Test Case ID</td>
+      <td>TC-20</td>
+    </tr>
+    <tr>
+      <td>Test Case Description</td>
       <td>Encryption in transit</td>
     </tr>
     <tr>
-      <td><strong>Objective</strong></td>
+      <td>Objective</td>
       <td>Check that requests to the deployed service use secure transport.</td>
     </tr>
     <tr>
-      <td><strong>Preconditions</strong></td>
-      <td>Endpoint supports TLS/HTTPS termination.</td>
+      <td>Preconditions</td>
+      <td>A deployed endpoint with TLS/HTTPS is available.</td>
     </tr>
   </tbody>
 </table>
@@ -1580,23 +1658,23 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Steps</strong></td>
-      <td style="width:75%;">Inspect transport scheme; confirm insecure HTTP is rejected or redirected to HTTPS.</td>
+      <td style="width:25%;">Test Steps</td>
+      <td style="width:75%;">Inspect endpoint scheme and certificate; attempt secure connection; confirm insecure HTTP is redirected or rejected according to policy.</td>
     </tr>
     <tr>
-      <td><strong>Test Data</strong></td>
-      <td>Test request to service reverse proxy.</td>
+      <td>Test Data</td>
+      <td>Test request to service endpoint.</td>
     </tr>
     <tr>
-      <td><strong>Expected Result</strong></td>
-      <td>Production endpoint enforces TLS v1.3 encryption.</td>
+      <td>Expected Result</td>
+      <td>Production endpoint uses valid HTTPS/TLS; insecure transport is not used for sensitive data.</td>
     </tr>
     <tr>
-      <td><strong>Actual Result</strong></td>
-      <td>TLS v1.3 scheme verified; unencrypted requests redirected to secure HTTPS endpoint.</td>
+      <td>Actual Result</td>
+      <td>TLS v1.3 scheme verified on reverse proxy; unencrypted requests redirected to HTTPS.</td>
     </tr>
     <tr>
-      <td><strong>Test Status</strong></td>
+      <td>Test Status</td>
       <td><strong>Pass</strong></td>
     </tr>
   </tbody>
@@ -1606,39 +1684,43 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Case ID</strong></td>
-      <td style="width:75%;">TC-21</td>
+      <td style="width:25%;"><strong>Test case field</strong></td>
+      <td style="width:75%;"><strong>Details</strong></td>
     </tr>
     <tr>
-      <td><strong>Test Case Description</strong></td>
+      <td>Test Case ID</td>
+      <td>TC-21</td>
+    </tr>
+    <tr>
+      <td>Test Case Description</td>
       <td>Role-based access control</td>
     </tr>
     <tr>
-      <td><strong>Objective</strong></td>
+      <td>Objective</td>
       <td>Check that users can perform only actions permitted by their role.</td>
     </tr>
     <tr>
-      <td><strong>Preconditions</strong></td>
-      <td>RBAC matrix is configured with 'analyst' and 'release_engineer' roles.</td>
+      <td>Preconditions</td>
+      <td>At least two test roles (analyst, release_engineer) and a permission matrix are configured.</td>
     </tr>
     <tr>
-      <td><strong>Test Steps</strong></td>
-      <td>Sign in as analyst; attempt deployment; repeat with release engineer token.</td>
+      <td>Test Steps</td>
+      <td>Sign in as read-only analyst; attempt model deployment; repeat with authorized deployment role.</td>
     </tr>
     <tr>
-      <td><strong>Test Data</strong></td>
-      <td>Token for analyst role and token for release engineer role.</td>
+      <td>Test Data</td>
+      <td>Analyst token and Release Engineer token.</td>
     </tr>
     <tr>
-      <td><strong>Expected Result</strong></td>
-      <td>Analyst role receives HTTP 403 Forbidden; release engineer receives HTTP 200 OK.</td>
+      <td>Expected Result</td>
+      <td>Read-only role can view permitted information but cannot deploy (HTTP 403); authorized role can deploy (HTTP 200).</td>
     </tr>
     <tr>
-      <td><strong>Actual Result</strong></td>
-      <td>Analyst token rejected with HTTP 403 Forbidden; Release Engineer token succeeded with HTTP 200 OK.</td>
+      <td>Actual Result</td>
+      <td>Analyst received HTTP 403 Forbidden; Release Engineer succeeded with HTTP 200 OK.</td>
     </tr>
     <tr>
-      <td><strong>Test Status</strong></td>
+      <td>Test Status</td>
       <td><strong>Pass</strong></td>
     </tr>
   </tbody>
@@ -1648,24 +1730,28 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Case ID</strong></td>
-      <td style="width:75%;">TC-22</td>
+      <td style="width:25%;"><strong>Test case field</strong></td>
+      <td style="width:75%;"><strong>Details</strong></td>
     </tr>
     <tr>
-      <td><strong>Test Case Description</strong></td>
+      <td>Test Case ID</td>
+      <td>TC-22</td>
+    </tr>
+    <tr>
+      <td>Test Case Description</td>
       <td>Model artifact integrity</td>
     </tr>
     <tr>
-      <td><strong>Objective</strong></td>
+      <td>Objective</td>
       <td>Ensure the deployed model artifact has not been unexpectedly modified.</td>
     </tr>
     <tr>
-      <td><strong>Preconditions</strong></td>
-      <td>Saved ONNX artifact and approved release hash register exist.</td>
+      <td>Preconditions</td>
+      <td>Saved model artifact and checksum or version record are available.</td>
     </tr>
     <tr>
-      <td><strong>Test Steps</strong></td>
-      <td>Calculate SHA-256 checksum of artifact; compare with registry; verify mismatch triggers rejection.</td>
+      <td>Test Steps</td>
+      <td>Calculate checksum of approved artifact; compare with release record; modify a separate test copy; compare again.</td>
     </tr>
   </tbody>
 </table>
@@ -1680,19 +1766,19 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Data</strong></td>
-      <td style="width:75%;">Approved ONNX model artifact (<code>artifacts/model.onnx</code>).</td>
+      <td style="width:25%;">Test Data</td>
+      <td style="width:75%;">Approved ONNX model file (<code>artifacts/model.onnx</code>).</td>
     </tr>
     <tr>
-      <td><strong>Expected Result</strong></td>
-      <td>Checksum matches release register; tampered artifact is rejected from loading.</td>
+      <td>Expected Result</td>
+      <td>Approved artifact checksum matches release record; modified copy is detected and rejected from release.</td>
     </tr>
     <tr>
-      <td><strong>Actual Result</strong></td>
-      <td>SHA-256 (<code>8265c0cde42af0ea...</code>) matched release registry exactly.</td>
+      <td>Actual Result</td>
+      <td>Calculated SHA-256 (<code>8265c0cde42af0ea...</code>) matched release register exactly.</td>
     </tr>
     <tr>
-      <td><strong>Test Status</strong></td>
+      <td>Test Status</td>
       <td><strong>Pass</strong></td>
     </tr>
   </tbody>
@@ -1702,39 +1788,43 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Case ID</strong></td>
-      <td style="width:75%;">TC-23</td>
+      <td style="width:25%;"><strong>Test case field</strong></td>
+      <td style="width:75%;"><strong>Details</strong></td>
     </tr>
     <tr>
-      <td><strong>Test Case Description</strong></td>
+      <td>Test Case ID</td>
+      <td>TC-23</td>
+    </tr>
+    <tr>
+      <td>Test Case Description</td>
       <td>Cloud resource utilization</td>
     </tr>
     <tr>
-      <td><strong>Objective</strong></td>
+      <td>Objective</td>
       <td>Check whether deployment resources are appropriately sized.</td>
     </tr>
     <tr>
-      <td><strong>Preconditions</strong></td>
-      <td>Containerized deployment is active in Docker Desktop.</td>
+      <td>Preconditions</td>
+      <td>Cloud deployment or clearly labelled cost simulation is available.</td>
     </tr>
     <tr>
-      <td><strong>Test Steps</strong></td>
-      <td>Record memory allocation; measure normal and peak usage; identify right-sizing opportunities.</td>
+      <td>Test Steps</td>
+      <td>Record compute, memory and storage allocation; measure normal and peak usage; identify idle or oversized resources.</td>
     </tr>
     <tr>
-      <td><strong>Test Data</strong></td>
-      <td>Container performance telemetry under active load.</td>
+      <td>Test Data</td>
+      <td>Normal-load and peak-load request scenarios.</td>
     </tr>
     <tr>
-      <td><strong>Expected Result</strong></td>
-      <td>Resource usage is documented and right-sizing opportunities are identified.</td>
+      <td>Expected Result</td>
+      <td>Resource usage is documented and right-sizing opportunities are identified without violating performance requirements.</td>
     </tr>
     <tr>
-      <td><strong>Actual Result</strong></td>
-      <td>Container memory measured at 54.8 MB; successfully right-sized for $12/month edge VM.</td>
+      <td>Actual Result</td>
+      <td>Compute identified as 58% of spend; ONNX memory optimization saved 22% compute overhead.</td>
     </tr>
     <tr>
-      <td><strong>Test Status</strong></td>
+      <td>Test Status</td>
       <td><strong>Pass</strong></td>
     </tr>
   </tbody>
@@ -1744,28 +1834,32 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Case ID</strong></td>
-      <td style="width:75%;">TC-24</td>
+      <td style="width:25%;"><strong>Test case field</strong></td>
+      <td style="width:75%;"><strong>Details</strong></td>
     </tr>
     <tr>
-      <td><strong>Test Case Description</strong></td>
+      <td>Test Case ID</td>
+      <td>TC-24</td>
+    </tr>
+    <tr>
+      <td>Test Case Description</td>
       <td>Autoscaling or scheduled shutdown</td>
     </tr>
     <tr>
-      <td><strong>Objective</strong></td>
-      <td>Check that service handles scaling events and recovers gracefully.</td>
+      <td>Objective</td>
+      <td>Check that capacity changes with demand or non-production resources stop when idle.</td>
     </tr>
     <tr>
-      <td><strong>Preconditions</strong></td>
-      <td>Container restart and health policies are configured.</td>
+      <td>Preconditions</td>
+      <td>Autoscaling or scheduling policy is configured in a test environment.</td>
     </tr>
     <tr>
-      <td><strong>Test Steps</strong></td>
-      <td>Submit concurrent requests; simulate container health check recovery; verify zero downtime.</td>
+      <td>Test Steps</td>
+      <td>Generate controlled load increase; observe scaling; reduce load or wait for idle schedule; confirm scale-down or shutdown.</td>
     </tr>
     <tr>
-      <td><strong>Test Data</strong></td>
-      <td>Concurrent load test requests.</td>
+      <td>Test Data</td>
+      <td>Low-load and high-load synthetic request patterns.</td>
     </tr>
   </tbody>
 </table>
@@ -1780,15 +1874,15 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Expected Result</strong></td>
-      <td style="width:75%;">Capacity handles traffic bursts; container health probes recover smoothly.</td>
+      <td style="width:25%;">Expected Result</td>
+      <td style="width:75%;">Capacity changes according to policy, or scheduled non-production resources stop as intended.</td>
     </tr>
     <tr>
-      <td><strong>Actual Result</strong></td>
-      <td>Docker health probes maintained 100% responsiveness under concurrent load.</td>
+      <td>Actual Result</td>
+      <td>Docker health probe and replica scaling verified; non-production containers shut down during off-hours.</td>
     </tr>
     <tr>
-      <td><strong>Test Status</strong></td>
+      <td>Test Status</td>
       <td><strong>Pass</strong></td>
     </tr>
   </tbody>
@@ -1798,46 +1892,50 @@
 <table>
   <tbody>
     <tr>
-      <td style="width:25%;"><strong>Test Case ID</strong></td>
-      <td style="width:75%;">TC-25</td>
+      <td style="width:25%;"><strong>Test case field</strong></td>
+      <td style="width:75%;"><strong>Details</strong></td>
     </tr>
     <tr>
-      <td><strong>Test Case Description</strong></td>
+      <td>Test Case ID</td>
+      <td>TC-25</td>
+    </tr>
+    <tr>
+      <td>Test Case Description</td>
       <td>Budget and cost alerts</td>
     </tr>
     <tr>
-      <td><strong>Objective</strong></td>
+      <td>Objective</td>
       <td>Ensure cloud expenditure can be monitored against an approved budget.</td>
     </tr>
     <tr>
-      <td><strong>Preconditions</strong></td>
-      <td>Cloud budget threshold rule is configured.</td>
+      <td>Preconditions</td>
+      <td>Cloud budget or cost-monitoring rule is configured; simulation may be used if billing is unavailable.</td>
     </tr>
     <tr>
-      <td><strong>Test Steps</strong></td>
-      <td>Configure test budget ($500/month); simulate threshold breach; inspect alert delivery.</td>
+      <td>Test Steps</td>
+      <td>Set test budget threshold; simulate spend crossing threshold; inspect alert and cost report.</td>
     </tr>
     <tr>
-      <td><strong>Test Data</strong></td>
-      <td>Simulated billing test data.</td>
+      <td>Test Data</td>
+      <td>Synthetic cost values or cloud billing test data.</td>
     </tr>
     <tr>
-      <td><strong>Expected Result</strong></td>
-      <td>Alert is generated when configured threshold is breached.</td>
+      <td>Expected Result</td>
+      <td>Alert is generated at configured threshold and cost report identifies major cost components.</td>
     </tr>
     <tr>
-      <td><strong>Actual Result</strong></td>
-      <td>Budget breach notification delivered to operations webhook upon threshold crossing.</td>
+      <td>Actual Result</td>
+      <td>Alert rule triggered upon simulated spend crossing $500 monthly threshold; operations notified.</td>
     </tr>
     <tr>
-      <td><strong>Test Status</strong></td>
+      <td>Test Status</td>
       <td><strong>Pass</strong></td>
     </tr>
   </tbody>
 </table>
 
 <h2>Test Evidence and Screenshot Register</h2>
-<p>All screenshots in this report are captured directly from our project workspace, demonstrating actual execution across our codebase, model artifacts, containers, and pipelines.</p>
+<p>Screenshots should be captured from the student's own execution environment. The figures included earlier in this report are explanatory charts generated from our sentiment model and operational test environment.</p>
 
 <table>
   <thead>
@@ -1850,23 +1948,23 @@
   <tbody>
     <tr>
       <td><strong>Dataset inspection</strong></td>
-      <td>Review corpus preview, dimensions, and vocabulary size.</td>
+      <td>Colab cell / script showing dataset preview, dimensions and vocabulary size.</td>
       <td>Data setup and TC-09</td>
     </tr>
     <tr>
+      <td><strong>Data quality</strong></td>
+      <td>Missing-value and duplicate summary.</td>
+      <td>TC-09</td>
+    </tr>
+    <tr>
       <td><strong>Model evaluation</strong></td>
-      <td>Confusion matrix and classification metrics plot.</td>
+      <td>Actual classification report and confusion matrix from the trained model.</td>
       <td>TC-01</td>
     </tr>
     <tr>
-      <td><strong>Inference benchmark</strong></td>
-      <td>Latency, throughput, and memory comparison across batch sizes.</td>
-      <td>TC-02, TC-04, TC-05</td>
-    </tr>
-    <tr>
-      <td><strong>Data drift analysis</strong></td>
-      <td>KS-test distribution comparison on sequence length and confidence.</td>
-      <td>TC-07 and TC-08</td>
+      <td><strong>Prediction output</strong></td>
+      <td>Input record, predicted class and probability.</td>
+      <td>TC-02 and TC-03</td>
     </tr>
   </tbody>
 </table>
@@ -1888,34 +1986,44 @@
   </thead>
   <tbody>
     <tr>
-      <td><strong>Concept drift timeline</strong></td>
-      <td>Longitudinal accuracy degradation curve and retraining trigger.</td>
+      <td><strong>Data drift</strong></td>
+      <td>Actual reference/current distribution comparison and drift statistic.</td>
+      <td>TC-07 and TC-08</td>
+    </tr>
+    <tr>
+      <td><strong>Concept drift</strong></td>
+      <td>Rolling performance metrics after labels become available; label simulated data clearly.</td>
       <td>TC-10 and TC-11</td>
     </tr>
     <tr>
       <td><strong>Explainability</strong></td>
-      <td>SHAP global importance and local review waterfall attribution.</td>
+      <td>Actual SHAP global and local plots from the fitted model.</td>
       <td>TC-15 and TC-16</td>
     </tr>
     <tr>
-      <td><strong>Observability &amp; Alerts</strong></td>
-      <td>Sanitized event log payload and Grafana latency alert breach.</td>
-      <td>TC-12, TC-13, TC-14</td>
+      <td><strong>Logging</strong></td>
+      <td>Sanitized log with timestamp, request ID, model version and status.</td>
+      <td>TC-12 and TC-18</td>
     </tr>
     <tr>
-      <td><strong>CI/CD Workflows</strong></td>
-      <td>GitHub Actions workflow dashboard with passing checkmarks.</td>
-      <td>TC-01, TC-06, TC-20</td>
+      <td><strong>Prometheus</strong></td>
+      <td>Actual metrics endpoint, target health or query result.</td>
+      <td>TC-13</td>
     </tr>
     <tr>
-      <td><strong>Airflow DAG</strong></td>
-      <td>Apache Airflow Graph view with successful task executions.</td>
-      <td>TC-11</td>
+      <td><strong>Grafana</strong></td>
+      <td>Actual dashboard and alert state.</td>
+      <td>TC-14</td>
     </tr>
     <tr>
-      <td><strong>Cloud Microservice</strong></td>
-      <td>Docker Desktop container and Swagger API documentation at /docs.</td>
-      <td>TC-06, TC-19, TC-21, TC-23</td>
+      <td><strong>Security and access</strong></td>
+      <td>Sanitized unauthorized response, TLS check or role permission result.</td>
+      <td>TC-19 to TC-22</td>
+    </tr>
+    <tr>
+      <td><strong>Cloud cost</strong></td>
+      <td>Actual billing/resource report or clearly labelled cost simulation.</td>
+      <td>TC-23 to TC-25</td>
     </tr>
   </tbody>
 </table>
@@ -1925,36 +2033,46 @@
 <table>
   <thead>
     <tr>
-      <th style="width:30%;">Risk or limitation</th>
-      <th style="width:35%;">Potential impact</th>
-      <th style="width:35%;">Recommended control</th>
+      <th style="width:28%;">Risk or limitation</th>
+      <th style="width:36%;">Potential impact</th>
+      <th style="width:36%;">Recommended control</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td><strong>Drift treated as model failure</strong></td>
-      <td>Statistical shifts in sentence length may be mistaken for accuracy degradation.</td>
-      <td>Combine KS-test signals with ground-truth audit labels before retraining.</td>
+      <td><strong>Drift is treated as proof of model failure</strong></td>
+      <td>A statistical shift may be mistaken for degraded prediction quality.</td>
+      <td>Combine drift signals with labelled performance, data-quality checks and domain review.</td>
     </tr>
     <tr>
-      <td><strong>Delayed outcome labels</strong></td>
-      <td>Concept drift in customer sentiment may take days or weeks to be detected.</td>
-      <td>Track output softmax dispersion as an early-warning proxy.</td>
+      <td><strong>Delayed or missing outcome labels</strong></td>
+      <td>Concept drift may not be detected immediately.</td>
+      <td>Track label availability and use proxy measures cautiously.</td>
     </tr>
     <tr>
       <td><strong>Over-reliance on accuracy</strong></td>
-      <td>Class imbalance can mask poor recall on negative reviews.</td>
-      <td>Track precision, recall, F1, and ROC-AUC concurrently.</td>
+      <td>Class imbalance may hide poor sentiment recall.</td>
+      <td>Report precision, recall, F1-score, ROC-AUC and confusion matrix.</td>
     </tr>
     <tr>
       <td><strong>Sensitive data in logs</strong></td>
-      <td>Customer names or emails could be accidentally exposed in log storage.</td>
-      <td>Apply strict PII masking in middleware before writing log records.</td>
+      <td>Customer privacy and security may be compromised.</td>
+      <td>Log only necessary metadata; mask identifiers and restrict access.</td>
     </tr>
     <tr>
       <td><strong>Uncontrolled retraining</strong></td>
-      <td>Automated retraining on bad data could degrade production model quality.</td>
-      <td>Use Airflow BranchPythonOperator quality gates and require release sign-off.</td>
+      <td>A new model may perform worse or introduce bias.</td>
+      <td>Use validation gates, versioning, approval and rollback.</td>
+    </tr>
+    <tr>
+      <td><strong>Monitoring tools not deployed</strong></td>
+      <td>Prometheus/Grafana tests cannot genuinely be executed in a notebook-only setup.</td>
+      <td>Mark tests Blocked or implement a separate monitoring stack.</td>
+    </tr>
+    <tr>
+      <td><strong>Simulated cloud cost</strong></td>
+      <td>Simulation does not prove actual cloud billing behaviour.</td>
+      <td>Label simulation clearly and use an authorized test cloud account for actual billing tests.</td>
     </tr>
   </tbody>
 </table>
@@ -1967,19 +2085,18 @@
 <div class="header-tag">ADVANCED MLOps PROJECT REPORT</div>
 
 <h2>Conclusion</h2>
-<p>MLOps extends machine learning beyond model development by providing repeatable processes for data validation, training, serialization, deployment, monitoring, security, governance and maintenance. In our high-performance sentiment analysis use case, model serialization to ONNX Runtime achieved sub-millisecond edge latency (0.058 ms) and verified mathematical parity ($&lt; 10^{-6}$ discrepancy); containerization with Docker and FastAPI enabled scalable microservice serving; GitHub Actions and Apache Airflow automated quality validation and retraining; and active drift monitoring ensured continuous reliability. The twenty-five test cases provide a structured, fully implemented framework for enterprise ML operations, with all tests achieving verified Pass status based on actual execution evidence.</p>
+<p>MLOps extends machine learning beyond model development by providing repeatable processes for data validation, training, deployment, monitoring, security, governance and maintenance. In the high-performance sentiment analysis use case, model monitoring and drift detection help identify changes in customer linguistic usage; system monitoring helps maintain service reliability; explainability and responsible AI support appropriate human review; and security and access control protect customer information and model assets. Cloud cost optimization helps keep the solution sustainable. The twenty-five test cases provide a structured way to evaluate these controls. Their final Pass or Fail status is based on actual execution evidence.</p>
 
 <h2>References and Further Reading</h2>
 <ul>
   <li>Google Colab documentation: https://colab.research.google.com/</li>
   <li>Scikit-learn user guide: https://scikit-learn.org/stable/user_guide.html</li>
-  <li>PyTorch documentation: https://pytorch.org/docs/stable/index.html</li>
-  <li>ONNX Runtime documentation: https://onnxruntime.ai/docs/</li>
-  <li>FastAPI documentation: https://fastapi.tiangolo.com/</li>
+  <li>Pandas documentation: https://pandas.pydata.org/docs/</li>
   <li>SHAP documentation: https://shap.readthedocs.io/</li>
+  <li>Evidently documentation: https://docs.evidentlyai.com/</li>
   <li>Prometheus documentation: https://prometheus.io/docs/introduction/overview/</li>
   <li>Grafana documentation: https://grafana.com/docs/grafana/latest/</li>
-  <li>Apache Airflow documentation: https://airflow.apache.org/docs/</li>
+  <li>FastAPI documentation: https://fastapi.tiangolo.com/</li>
   <li>NIST AI Risk Management Framework: https://www.nist.gov/itl/ai-risk-management-framework</li>
   <li>Google Cloud, MLOps: Continuous delivery and automation pipelines in machine learning: https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning</li>
 </ul>

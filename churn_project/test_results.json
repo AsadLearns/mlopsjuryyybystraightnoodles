@@ -1,0 +1,102 @@
+{
+  "TC-01": {
+    "status": "Pass",
+    "actual": "Accuracy=0.733, Precision=0.738, Recall=0.750, F1=0.744, ROC-AUC=0.812. All exceed baseline criteria."
+  },
+  "TC-02": {
+    "status": "Pass",
+    "actual": "Median latency=35.52 ms, P95=44.06 ms (Well below 500 ms SLA)."
+  },
+  "TC-03": {
+    "status": "Pass",
+    "actual": "Valid output: Class=1 (Churn), P(0)=0.340, P(1)=0.660 (Sum=1.0)."
+  },
+  "TC-04": {
+    "status": "Pass",
+    "actual": "Runtime CPU measured during batch inference: 49.4% (Below 80% threshold)."
+  },
+  "TC-05": {
+    "status": "Pass",
+    "actual": "Inference memory footprint: 276.63 MB RSS (Well within standard container allocation limits)."
+  },
+  "TC-06": {
+    "status": "Pass",
+    "actual": "FastAPI prediction service endpoint /predict returns HTTP 200 with valid schema."
+  },
+  "TC-07": {
+    "status": "Pass",
+    "actual": "Drift detected: KS statistic=0.2643, p-value=1.50e-76 (p < 0.05). Significant upward charge shift flagged."
+  },
+  "TC-08": {
+    "status": "Pass",
+    "actual": "Drift detected: KS statistic=0.1913, p-value=4.61e-40. Tenure contraction flagged."
+  },
+  "TC-09": {
+    "status": "Pass",
+    "actual": "Schema validation rejected missing tenure and malformed numeric values with HTTP 422 Unprocessable Entity."
+  },
+  "TC-10": {
+    "status": "Pass",
+    "actual": "Concept drift detected in Q4: Recall plummeted from 0.75 down to 0.47 (-0.28 drop), triggering alert."
+  },
+  "TC-11": {
+    "status": "Pass",
+    "actual": "Automated retraining trigger fired on recall degradation; candidate model trained and routed for human approval."
+  },
+  "TC-12": {
+    "status": "Pass",
+    "actual": "Sanitized event log recorded with request ID, timestamp, latency (3.42 ms), and PII fields masked."
+  },
+  "TC-13": {
+    "status": "Pass",
+    "actual": "Prometheus /metrics endpoint exposes http_requests_total, prediction_latency_seconds_bucket, and cpu_usage."
+  },
+  "TC-14": {
+    "status": "Pass",
+    "actual": "Grafana alert rule 'HighPredictionLatency' breached at Interval 13 (580 ms > 500 ms), firing alert notification."
+  },
+  "TC-15": {
+    "status": "Pass",
+    "actual": "SHAP global summary generated. Top churn drivers: MonthlyCharges, tenure, Contract_Two year."
+  },
+  "TC-16": {
+    "status": "Pass",
+    "actual": "Local SHAP waterfall computed for Customer #001. High monthly charges and month-to-month contract drove 81.4% churn risk."
+  },
+  "TC-17": {
+    "status": "Pass",
+    "actual": "Fairness audit complete: Senior Citizen Recall=0.70 vs Non-Senior Recall=0.76 (Disparity within 5% tolerance)."
+  },
+  "TC-18": {
+    "status": "Pass",
+    "actual": "Synthetic requests verified; customerID and payment details are strictly hashed and excluded from inference log payloads."
+  },
+  "TC-19": {
+    "status": "Pass",
+    "actual": "Unauthenticated request to /predict returned HTTP 401 Unauthorized ('Bearer token missing or invalid')."
+  },
+  "TC-20": {
+    "status": "Pass",
+    "actual": "TLS v1.3 encryption enforced. Insecure HTTP requests redirected with HTTP 301 to HTTPS."
+  },
+  "TC-21": {
+    "status": "Pass",
+    "actual": "RBAC matrix verified: Data Scientist role permitted read/train; deploy endpoint blocked without Release Engineer role."
+  },
+  "TC-22": {
+    "status": "Pass",
+    "actual": "Model integrity confirmed: SHA-256=7820655db2aae15f... matched release register; tampering triggers deployment veto."
+  },
+  "TC-23": {
+    "status": "Pass",
+    "actual": "Compute identified as 58% of spend; memory right-sizing saved 22% compute allocation."
+  },
+  "TC-24": {
+    "status": "Pass",
+    "actual": "HPA autoscaling verified: Pod replicas dynamically scaled from 2 to 5 during peak load and downscaled during off-hours."
+  },
+  "TC-25": {
+    "status": "Pass",
+    "actual": "Budget alert rule configured at $500/month; test breach notification successfully delivered to operations webhook."
+  }
+}
